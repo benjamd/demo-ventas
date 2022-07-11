@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+			<h2>Ventas - Reportes </h2>
+
+ 		<hr/>
+ 		
+ 		<div class="row"> 
+			<h4 class="card-title col-sm-2">
+				<a th:href="@{/ventas/reporte/buscar}" class="btn btn-success">Ventas - Reportes</a>
+			</h4>
+		</div>
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+			
+ 			
+				<div class="container">
+					<div class="row">
+						 
+						<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/reporte/saldopendientectacte(format=xlsx)}" class="btn btn-xs btn-success float-right ">Exportar Saldos Cta Cte</a>
+								</h4>
+						</div>
+						
+					</div>
+				</div>
+				
+				<br/>
+				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Cliente </th>
+ 							<th>Saldo Cuenta Corriente</th>
+ 						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="documento: ${documentos}">
+							<td th:text="${documento.key}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(documento.value,1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			<!--	<nav th:replace="layout/paginator-nav :: paginator"></nav> -->
+			</div>
+		</div>
+
+	</div>
+
+	  <footer th:replace="layout/layout :: footer"></footer>  
+</body>
+</html>

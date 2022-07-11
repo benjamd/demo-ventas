@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+	
+ 
+	 var indexdepotransf = 1;
+	 var indexcheque = 1;
+	 var indexFacturas = 0 ;
+	 var indexretencion = 0;
+	 var indexDivCheque = 1 ;
+		 
+	var cargarRecibo = {		
+		
+			agregarFactura: function(id , docId){
+				 
+				var linea = document.getElementById(id); 
+ 				
+			 
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				var nombre ="facturas[".concat(indexFacturas).concat("].factura");
+				idInput.setAttribute("name",nombre);
+				//idInput.setAttribute("name","factura_id[]");
+				idTd.appendChild(idInput);
+				
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","input");
+				var inputImporte = document.createElement("input");
+				inputImporte.setAttribute("type","number");
+				inputImporte.setAttribute("value","0"); 
+				inputImporte.setAttribute("name","impasignado[]");
+				inputImporte.setAttribute("min","0.01");
+				var max = linea.getAttribute("value");
+				inputImporte.setAttribute("max",max);
+				inputImporte.setAttribute("step","0.01");
+				
+				var idpago = "impasignado_".concat(id);
+				inputImporte.setAttribute("id",idpago);
+				inputImporte.setAttribute("class","form-control col-sm-6");
+				inputImporte.setAttribute("onchange","calcular.importePago(this.value);");
+				tdInput.appendChild(inputImporte);
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLinea(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+		 		//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+		 
+ 
+		agregarlineaFactura: function(id , docId){
+				 
+				var linea = document.getElementById(id); 
+ 				
+			 
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","factura_id[]");
+				idTd.appendChild(idInput);
+				
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","input");
+				var inputImporte = document.createElement("input");
+				inputImporte.setAttribute("type","number");
+				inputImporte.setAttribute("value","0"); 
+				inputImporte.setAttribute("name","factura_pago[]");
+				inputImporte.setAttribute("min","0");
+				var max = linea.getAttribute("value");
+				inputImporte.setAttribute("max",max);
+				inputImporte.setAttribute("step","0.01");
+				
+				var idpago = "impasignado_".concat(id);
+				inputImporte.setAttribute("id",idpago);
+				inputImporte.setAttribute("class","form-control col-sm-6");
+				inputImporte.setAttribute("onchange","calcular.importePago(this.value);");
+				tdInput.appendChild(inputImporte);
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLinea(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+		 		//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+			
+			agregarlineaOrden: function(id, docId){
+				 
+				var linea = document.getElementById(id); 
+ 				
+			 
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","orden_id[]");
+				idTd.appendChild(idInput);
+				
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","input");
+				var inputImporte = document.createElement("input");
+				inputImporte.setAttribute("type","number");
+				inputImporte.setAttribute("value","0"); 
+				inputImporte.setAttribute("name","orden_pago[]");
+				inputImporte.setAttribute("min","0");
+				var max = linea.getAttribute("value");
+				inputImporte.setAttribute("max",max);
+				inputImporte.setAttribute("step","0.01");
+				
+				var idpago = "impasignado_oe_".concat(id);
+				inputImporte.setAttribute("id",idpago);
+				inputImporte.setAttribute("class","form-control col-sm-6");
+				inputImporte.setAttribute("onchange","calcular.importePago(this.value);");
+				tdInput.appendChild(inputImporte);
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLinea(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+				//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+			
+			
+			agregarlineaCredito: function(id, docId ){
+				 
+				var linea = document.getElementById(id); 
+ 		
+			
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","credito_id[]");
+				idTd.appendChild(idInput);
+				
+ 			
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","vacio");
+				var tdContenido = document.createTextNode("");
+				tdInput.appendChild(tdContenido);
+				 
+				
+
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLineaCredito(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+				//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+			
+			agregarlineaOrdenCredito: function(id, docId ){
+				 
+				var linea = document.getElementById(id); 
+ 		
+			
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","ordencredito_id[]");
+				idTd.appendChild(idInput);
+				
+ 			
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","vacio");
+				var tdContenido = document.createTextNode("");
+				tdInput.appendChild(tdContenido);
+				 
+				
+
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLineaCredito(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+	 			
+			},
+			
+			agregarlineaDebito: function(id, docId ){
+				 
+				var linea = document.getElementById(id); 
+ 		
+			
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","debito_id[]");
+				idTd.appendChild(idInput);
+				
+ 			
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","vacio");
+				var tdContenido = document.createTextNode("");
+				tdInput.appendChild(tdContenido);
+				 
+				
+
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLineaCredito(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+				//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+			
+			agregarlineaDebito2: function(id , docId){
+				 
+				var linea = document.getElementById(id); 
+ 				
+			 
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","debito_id[]");
+				idTd.appendChild(idInput);
+				
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","input");
+				var inputImporte = document.createElement("input");
+				inputImporte.setAttribute("type","number");
+				inputImporte.setAttribute("value","0"); 
+				inputImporte.setAttribute("name","debito_pago[]");
+				inputImporte.setAttribute("min","0");
+				var max = linea.getAttribute("value");
+				inputImporte.setAttribute("max",max);
+				inputImporte.setAttribute("step","0.01");
+				
+				var idpago = "impasignado_".concat(id);
+				inputImporte.setAttribute("id",idpago);
+				inputImporte.setAttribute("class","form-control col-sm-6");
+				inputImporte.setAttribute("onchange","calcular.importePago(this.value);");
+				tdInput.appendChild(inputImporte);
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLinea(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+		 		//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+			
+			agregarlineaRecibo: function(id, docId ){
+				 
+				var linea = document.getElementById(id); 
+ 		
+			
+				var idTd = document.createElement("td");
+				idTd.setAttribute("class","d-none");
+				var idInput = document.createElement("input");
+				idInput.setAttribute("type","hidden");
+				idInput.setAttribute("value",docId); 
+				idInput.setAttribute("name","recibo_id[]");
+				idTd.appendChild(idInput);
+				
+ 			
+				
+				var tdInput = document.createElement("td");
+				tdInput.setAttribute("id","vacio");
+				var tdContenido = document.createTextNode("");
+				tdInput.appendChild(tdContenido);
+				 
+				
+
+			 
+				var tdEliminar = document.createElement("td");
+				tdEliminar.setAttribute("id","eliminar");
+				var aEliminar = document.createElement("a");
+				aEliminar.setAttribute("href","#");
+				aEliminar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarLineaCredito(".concat(id);
+				var funcquitar = f1.concat(")");
+		 		aEliminar.setAttribute("onclick",funcquitar);
+		
+		 		
+		 		var contenidoAEliminar = document.createTextNode("x");
+			 	
+				aEliminar.appendChild(contenidoAEliminar);
+				tdEliminar.appendChild(aEliminar);
+			 	
+				linea.appendChild(tdInput);
+				linea.appendChild(tdEliminar);
+				linea.appendChild(idTd);
+				document.getElementById("plantillaItemsReciboDebito").appendChild(linea);
+				
+				 var tag = linea.querySelector('#agregar');
+				 tag.setAttribute("hidden",'');
+				 
+				
+				 
+				//TODO: ELIMINAR
+				// calcular.calcularImporte();
+				
+			},
+			
+
+			
+			
+		 	quitarLinea: function(linea){
+		 		console.log(linea);
+				 
+				var tag = linea.querySelector('#agregar');
+				tag.removeAttribute("hidden");
+				
+				var input = linea.querySelector('#input');
+				linea.removeChild(input);
+				var eliminar = linea.querySelector('#eliminar');
+				linea.removeChild(eliminar);
+ 
+
+ 
+				 $("#documentospendientes tbody").append(linea);
+				
+				 //TODO: llamar importePago?
+				//calcular.calcularImporte();
+				
+			},
+			
+			quitarLineaCredito: function(linea){
+		 		console.log(linea);
+				 
+				var tag = linea.querySelector('#agregar');
+				tag.removeAttribute("hidden");
+				
+				var td = linea.querySelector('#vacio');
+				linea.removeChild(td);
+				var eliminar = linea.querySelector('#eliminar');
+				linea.removeChild(eliminar);
+ 
+
+ 
+				 $("#documentospendientes tbody").append(linea);
+				
+				 //TODO: llamar importePago?
+				 //calcular.calcularImporte();
+				
+			},
+			
+			agregarDepoTransf: function(){
+		 		
+				
+			 	var divNuevo = document.createElement("div");
+			 	var id = "depotransfer".concat(indexdepotransf);
+			 	divNuevo.setAttribute("id",id);
+				
+ 
+			 	var divLeyenda = document.createElement("div");
+			 	divLeyenda.setAttribute("class","form-group row");
+			 	
+			 	var h6Leyenda = document.createElement("h6");
+			 	var strong = document.createElement("strong");
+			 	var strongContenido  = document.createTextNode("Deposito/Transferencia");
+			 	strong.appendChild(strongContenido);
+			 	h6Leyenda.appendChild(strong);
+			 	divLeyenda.appendChild(h6Leyenda);
+			 	
+			 	
+				var divRowQuitar = document.createElement("div");
+				divRowQuitar.setAttribute("class","form-group row");
+				
+				var div8 = document.createElement("div");
+				div8.setAttribute("class","col-sm-8");
+				divRowQuitar.appendChild(div8);
+				var divQuitar = document.createElement("div");
+				divQuitar.setAttribute("class","col-sm-4");
+				divRowQuitar.appendChild(divQuitar);
+				
+ 
+				var aQuitar = document.createElement("a");
+				aQuitar.setAttribute("href","#");
+				aQuitar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarDepoTransfer(depotransfer".concat(indexdepotransf);
+				var funcQuitar = f1.concat(");");
+				aQuitar.setAttribute("onclick",funcQuitar);
+				var contenidoAQuitar = document.createTextNode("QUITAR DEPOSITO/TRANSFERENCIA");
+				aQuitar.appendChild(contenidoAQuitar);
+	 		 	
+				divQuitar.appendChild(aQuitar);
+				 
+			 	
+				 
+				 var div = document.createElement("div");
+				 div.setAttribute("class","form-group row");
+				 
+				 
+				 var label = document.createElement("label");
+				 label.setAttribute("for","tipobanco");
+				 label.setAttribute("class","col-xs-4 col-form-label");
+				 var contenido  = document.createTextNode("Tipo");
+				 label.appendChild(contenido);
+				 
+				 div.appendChild(label);
+				 
+ 
+				 
+	 		 		//div.select.{option,option}
+	 		 		var divTipoBanco = document.createElement("div");
+	 		 		divTipoBanco.setAttribute("class","col-sm-2");
+	 		 		var selectBanco = document.createElement("select");
+	 		 		selectBanco.setAttribute("id","tipobanco");
+	 		 		//selectBanco.setAttribute("name","tipobanco[]");
+	 		 		var transferTipo = "depotransfer[".concat(indexdepotransf).concat("].tipo");
+	 		 		selectBanco.setAttribute("name",transferTipo);
+	 		 		selectBanco.setAttribute("th:field",transferTipo)
+	 		 		selectBanco.setAttribute("class","form-control");
+	 		 		selectBanco.setAttribute("th:errorclass","'form-control alert-danger'");
+	 		 		
+					 var optionDepo = document.createElement("option");
+					 optionDepo.setAttribute("value","Deposito");
+					 optionDepo.setAttribute("class","form-control");
+					 var contenidoDepo  = document.createTextNode("Deposito");
+					 optionDepo.appendChild(contenidoDepo);
+					
+					 var optionTransf = document.createElement("option");
+					 optionTransf.setAttribute("value","Transferencia");
+					 optionTransf.setAttribute("class","form-control");
+					 var contenidoTransf  = document.createTextNode("Transferencia");
+					 optionTransf.appendChild(contenidoTransf);
+					 
+					 selectBanco.appendChild(optionDepo);
+					 selectBanco.appendChild(optionTransf);
+					 divTipoBanco.appendChild(selectBanco);
+				 
+					 div.appendChild(divTipoBanco);  
+	 		 		
+ 
+					 var labelFecha = document.createElement("label");
+					 labelFecha.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoFecha = document.createTextNode("Fecha");
+					 labelFecha.appendChild(contenidoFecha);
+						 
+					 div.appendChild(labelFecha);
+					 
+					//div.input.{tipo date}
+		 		 	var divFechaBanco = document.createElement("div");
+		 		 	divFechaBanco.setAttribute("class","col-sm-2");
+		 		 	var inputFechaBanco = document.createElement("input");
+		 		 	inputFechaBanco.setAttribute("id","fechabanco");
+		 		 	//inputFechaBanco.setAttribute("name","fechabanco[]");
+		 		 	inputFechaBanco.setAttribute("type","date");
+	 		 		var transferFecha = "depotransfer[".concat(indexdepotransf).concat("].fecha");
+	 		 		inputFechaBanco.setAttribute("name",transferFecha);
+	 		 		inputFechaBanco.setAttribute("th:field",transferFecha)
+		 		 	//inputFechaBanco.setAttribute("th:field","*{fechabanco}");
+		 		 	inputFechaBanco.setAttribute("class","form-control");
+		 		 	inputFechaBanco.setAttribute("min","0");
+		 		 	inputFechaBanco.setAttribute("th:errorclass","'form-control alert-danger'");
+		 		 	divFechaBanco.appendChild(inputFechaBanco);
+		 		 	
+		 		 	 div.appendChild(divFechaBanco);
+					 
+		 		 	
+		 		 	 
+		 		 	 
+		 		 	 var labelImporte = document.createElement("label");
+		 		 	 labelImporte.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoImporte = document.createTextNode("Importe");
+					 labelImporte.appendChild(contenidoImporte);
+						 
+					 div.appendChild(labelImporte);	 
+					 
+						//div.input.{tipo date}
+			 		 	var divImporte = document.createElement("div");
+			 		 	divImporte.setAttribute("class","col-sm-4");
+			 		 	var inputImporte = document.createElement("input");
+			 		 	inputImporte.setAttribute("id","pagobanco");
+			 		 	inputImporte.setAttribute("type","number");
+			 		 	inputImporte.setAttribute("required","");
+			 			inputImporte.setAttribute("onchange","calcular.cargarFormaPago(this.value);");
+		 		 		var transferPago = "depotransfer[".concat(indexdepotransf).concat("].pago");
+		 		 		inputImporte.setAttribute("name",transferPago);
+		 		 		inputImporte.setAttribute("th:field",transferPago)
+			 		 	//inputImporte.setAttribute("th:field","*{pagobanco}");
+			 		 	inputImporte.setAttribute("class","form-control col-sm-6");
+			 		 	inputImporte.setAttribute("step","0.01");
+			 		 	inputImporte.setAttribute("min","0.01");
+			 		 	
+ 
+			 		 	divImporte.appendChild(inputImporte);
+					 
+			 		 	div.appendChild(divImporte);	 
+			 		 	 
+					 
+			 		 var div2 = document.createElement("div");
+					 div2.setAttribute("class","form-group row");
+					 
+		 		 	 
+ 
+					 
+					 var labelComprobante = document.createElement("label");
+		 		 	 labelComprobante.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoComprobante = document.createTextNode("Comprobante");
+					 labelComprobante.appendChild(contenidoComprobante);
+						 
+					 div2.appendChild(labelComprobante);	
+					 
+					 
+						//div.input.{tipo date}
+			 		 	var divComprobante = document.createElement("div");
+			 		 	divComprobante.setAttribute("class","col-sm-4");
+			 		 	var inputComprobante = document.createElement("input");
+			 		 	inputComprobante.setAttribute("id","comprobante");
+			 		 	inputComprobante.setAttribute("required","");
+			 		 	inputComprobante.setAttribute("type","text");
+			 		 	var transferComprobante = "depotransfer[".concat(indexdepotransf).concat("].comprobante");
+			 			inputComprobante.setAttribute("name",transferComprobante);
+			 		 	inputComprobante.setAttribute("th:field",transferComprobante)
+			 		 	//inputComprobante.setAttribute("th:field","*{comprobante}");
+			 		 	inputComprobante.setAttribute("class","form-control");
+			 		 	inputComprobante.setAttribute("th:errorclass","'form-control alert-danger'");
+ 
+
+			 		 	divComprobante.appendChild(inputComprobante);
+					 
+			 		 	div2.appendChild(divComprobante);	
+					 
+					 
+			 		 	 var labelBanco = document.createElement("label");
+			 		 	 labelBanco.setAttribute("class","col-xs-2 col-form-label");
+						 var contenidoBanco = document.createTextNode("Banco");
+						 labelBanco.appendChild(contenidoBanco);
+							 
+						 div2.appendChild(labelBanco);	 
+			 		 	
+					 
+							//div.input.{tipo date}
+				 		 	var divBanco = document.createElement("div");
+				 		 	divBanco.setAttribute("class","col-sm-4");
+				 		 	var inputBanco = document.createElement("input");
+				 		 	inputBanco.setAttribute("id","banco");
+				 		 	inputBanco.setAttribute("required","");
+				 		 	inputBanco.setAttribute("type","text");
+				 		 	var transferBanco = "depotransfer[".concat(indexdepotransf).concat("].banco");
+				 		 	inputBanco.setAttribute("name",transferBanco);
+				 		 	inputBanco.setAttribute("th:field",transferBanco)
+				 		 	//inputBanco.setAttribute("th:field","*{banco}");
+				 		 	inputBanco.setAttribute("class","form-control");
+				 		 	inputBanco.setAttribute("th:errorclass","'form-control alert-danger'");
+					 
+					 
+				 		 	divBanco.appendChild(inputBanco);
+							 
+				 		 	div2.appendChild(divBanco);	
+						 
+					 
+				 $(divNuevo).append(divLeyenda);
+				 $(divNuevo).append(divRowQuitar);
+				 $(divNuevo).append(div);
+				 $(divNuevo).append(div2);
+				 
+				 $("#depotransfertree").append(divNuevo);   
+			 
+				 indexdepotransf = indexdepotransf +1 ;
+				 
+				
+			},
+			
+			
+				agregarRetencion: function(){
+		 		
+				
+			 	var divNuevo = document.createElement("div");
+			 	var id = "retencion".concat(indexretencion);
+			 	divNuevo.setAttribute("id",id);
+				
+ 
+			 	var divLeyenda = document.createElement("div");
+			 	divLeyenda.setAttribute("class","form-group row");
+			 	
+			 	var h6Leyenda = document.createElement("h6");
+			 	var strong = document.createElement("strong");
+			 	var strongContenido  = document.createTextNode("Retencion");
+			 	strong.appendChild(strongContenido);
+			 	h6Leyenda.appendChild(strong);
+			 	divLeyenda.appendChild(h6Leyenda);
+			 	
+			 	
+				var divRowQuitar = document.createElement("div");
+				divRowQuitar.setAttribute("class","form-group row");
+				
+				var div8 = document.createElement("div");
+				div8.setAttribute("class","col-sm-8");
+				divRowQuitar.appendChild(div8);
+				var divQuitar = document.createElement("div");
+				divQuitar.setAttribute("class","col-sm-4");
+				divRowQuitar.appendChild(divQuitar);
+				
+ 
+				var aQuitar = document.createElement("a");
+				aQuitar.setAttribute("href","#");
+				aQuitar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarRetencion(retencion".concat(indexretencion);
+				var funcQuitar = f1.concat(");");
+				aQuitar.setAttribute("onclick",funcQuitar);
+				var contenidoAQuitar = document.createTextNode("QUITAR RETENCION");
+				aQuitar.appendChild(contenidoAQuitar);
+	 		 	
+				divQuitar.appendChild(aQuitar);
+				 
+			 	
+				 
+				 var div = document.createElement("div");
+				 div.setAttribute("class","form-group row");
+				 
+				 
+				 var label = document.createElement("label");
+				 label.setAttribute("for","tiporetencion");
+				 label.setAttribute("class","col-xs-4 col-form-label");
+				 var contenido  = document.createTextNode("Tipo");
+				 label.appendChild(contenido);
+				 
+				 div.appendChild(label);
+				 
+ 
+				 
+	 		 		//div.select.{option,option}
+	 		 		var divTipoBanco = document.createElement("div");
+	 		 		divTipoBanco.setAttribute("class","col-sm-2");
+	 		 		var selectBanco = document.createElement("select");
+	 		 		selectBanco.setAttribute("id","retenciontipo");
+	 		 		//selectBanco.setAttribute("name","tipobanco[]");
+	 		 		var transferTipo = "retenciones[".concat(indexretencion).concat("].tipo");
+	 		 		selectBanco.setAttribute("name",transferTipo);
+	 		 		selectBanco.setAttribute("th:field",transferTipo)
+	 		 		selectBanco.setAttribute("class","form-control");
+	 		 		selectBanco.setAttribute("th:errorclass","'form-control alert-danger'");
+	 		 		
+					 var optionDepo = document.createElement("option");
+					 optionDepo.setAttribute("value","Gananacias");
+					 optionDepo.setAttribute("class","form-control");
+					 var contenidoDepo  = document.createTextNode("Gananacias");
+					 optionDepo.appendChild(contenidoDepo);
+					
+					 var optionTransf = document.createElement("option");
+					 optionTransf.setAttribute("value","IIBB Buenos Aires");
+					 optionTransf.setAttribute("class","form-control");
+					 var contenidoTransf  = document.createTextNode("IIBB Buenos Aires");
+					 optionTransf.appendChild(contenidoTransf);
+					 
+					 var optioniva = document.createElement("option");
+					 optioniva.setAttribute("value","IVA");
+					 optioniva.setAttribute("class","form-control");
+					 var contenidoiva  = document.createTextNode("IVA");
+					 optioniva.appendChild(contenidoiva);
+					 
+					 var optionsuss = document.createElement("option");
+					 optionsuss.setAttribute("value","SUSS");
+					 optionsuss.setAttribute("class","form-control");
+					 var contenidosuss  = document.createTextNode("SUSS");
+					 optionsuss.appendChild(contenidosuss);
+					 
+					 selectBanco.appendChild(optionDepo);
+					 selectBanco.appendChild(optionTransf);
+					 selectBanco.appendChild(optioniva);
+					 selectBanco.appendChild(optionsuss);
+					 divTipoBanco.appendChild(selectBanco);
+				 
+					 div.appendChild(divTipoBanco);  
+	 		 		
+ 
+					 var labelFecha = document.createElement("label");
+					 labelFecha.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoFecha = document.createTextNode("Fecha");
+					 labelFecha.appendChild(contenidoFecha);
+						 
+					 div.appendChild(labelFecha);
+					 
+					//div.input.{tipo date}
+		 		 	var divFechaBanco = document.createElement("div");
+		 		 	divFechaBanco.setAttribute("class","col-sm-2");
+		 		 	var inputFechaBanco = document.createElement("input");
+		 		 	inputFechaBanco.setAttribute("id","retencionfecha");
+		 		 	//inputFechaBanco.setAttribute("name","fechabanco[]");
+		 		 	inputFechaBanco.setAttribute("type","date");
+	 		 		var transferFecha = "retenciones[".concat(indexretencion).concat("].fecha");
+	 		 		inputFechaBanco.setAttribute("name",transferFecha);
+	 		 		inputFechaBanco.setAttribute("th:field",transferFecha)
+		 		 	//inputFechaBanco.setAttribute("th:field","*{fechabanco}");
+		 		 	inputFechaBanco.setAttribute("class","form-control");
+		 		 	inputFechaBanco.setAttribute("min","0");
+		 		 	inputFechaBanco.setAttribute("th:errorclass","'form-control alert-danger'");
+		 		 	divFechaBanco.appendChild(inputFechaBanco);
+		 		 	
+		 		 	 div.appendChild(divFechaBanco);
+					 
+		 		 	
+		 		 	 
+		 		 	 
+		 		 	 var labelImporte = document.createElement("label");
+		 		 	 labelImporte.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoImporte = document.createTextNode("Numero");
+					 labelImporte.appendChild(contenidoImporte);
+						 
+					 div.appendChild(labelImporte);	 
+					 
+						//div.input.{tipo date}
+			 		 	var divImporte = document.createElement("div");
+			 		 	divImporte.setAttribute("class","col-sm-2");
+			 		 	var inputImporte = document.createElement("input");
+			 		 	inputImporte.setAttribute("id","retencionnumero");
+			 		 	inputImporte.setAttribute("type","number");
+			 		 	inputImporte.setAttribute("required","");
+		 		 		var transferPago = "retenciones[".concat(indexretencion).concat("].numero");
+		 		 		inputImporte.setAttribute("name",transferPago);
+		 		 		inputImporte.setAttribute("th:field",transferPago)
+			 		 	//inputImporte.setAttribute("th:field","*{pagobanco}");
+			 		 	inputImporte.setAttribute("class","form-control");
+			 		 	inputImporte.setAttribute("step","0.01");
+			 		 	inputImporte.setAttribute("min","0.01");
+			 		 	
+ 
+			 		 	divImporte.appendChild(inputImporte);
+					 
+			 		 	div.appendChild(divImporte);	 
+			 		 	
+			 		 	
+			 		 	 var labelImporte = document.createElement("label");
+			 		 	 labelImporte.setAttribute("class","col-xs-2 col-form-label");
+						 var contenidoImporte = document.createTextNode("Importe");
+						 labelImporte.appendChild(contenidoImporte);
+							 
+						 div.appendChild(labelImporte);	 
+						 
+							//div.input.{tipo date}
+				 		 	var divImporte = document.createElement("div");
+				 		 	divImporte.setAttribute("class"," col-sm-2");
+				 		 	var inputImporte = document.createElement("input");
+				 		 	inputImporte.setAttribute("id","retencionpago");
+				 		 	inputImporte.setAttribute("type","number");
+				 		 	inputImporte.setAttribute("required","");
+				 			inputImporte.setAttribute("onchange","calcular.cargarFormaPago(this.value);");
+			 		 		var transferPago = "retenciones[".concat(indexretencion).concat("].pago");
+			 		 		inputImporte.setAttribute("name",transferPago);
+			 		 		inputImporte.setAttribute("th:field",transferPago)
+				 		 	//inputImporte.setAttribute("th:field","*{pagobanco}");
+				 		 	inputImporte.setAttribute("class","form-control");
+				 		 	inputImporte.setAttribute("step","0.01");
+				 		 	inputImporte.setAttribute("min","0.01");
+				 		 	
+	 
+				 		 	divImporte.appendChild(inputImporte);
+						 
+				 		 	div.appendChild(divImporte);	
+			 		 	 
+					 
+			 					 
+					 
+				 $(divNuevo).append(divLeyenda);
+				 $(divNuevo).append(divRowQuitar);
+				 $(divNuevo).append(div);
+				 
+				 
+				 $("#retenciontree").append(divNuevo);   
+			 
+				 indexretencion = indexretencion +1 ;
+				 
+				
+			},
+			
+			agregarCheque: function(){
+		 		
+				 
+			 	var divLeyenda = document.createElement("div");
+			 	divLeyenda.setAttribute("class","form-group row");
+			 	
+			 	var h6Leyenda = document.createElement("h6");
+			 	var strong = document.createElement("strong");
+			 	var strongContenido  = document.createTextNode("Cheque");
+			 	strong.appendChild(strongContenido);
+			 	h6Leyenda.appendChild(strong);
+			 	divLeyenda.appendChild(h6Leyenda);
+				 
+				var div0 = document.createElement("div");
+				div0.setAttribute("class","form-group row");
+  	 	 
+				//var divSelect = document.getElementById("divchequeselect");
+	 		 	//var clon = divSelect.cloneNode(true);
+				
+				
+				var labelBanco = document.createElement("label");
+				labelBanco.setAttribute("for","banco");
+				labelBanco.setAttribute("class","col-xs-2 col-form-label");
+				labelBanco.setAttribute("th:text","'Banco'");
+				div0.appendChild(labelBanco);	 
+			 	
+				var divBanco = document.createElement("div");
+				divBanco.setAttribute("class","col-sm-6");
+				var selectBanco = document.createElement("select");
+				var idSelectBanco = "selectbanco".concat(indexcheque);
+	 		 	selectBanco.setAttribute("id",idSelectBanco);
+	 		 	//selectBanco.setAttribute("name","bancocheque[]");
+ 		 		var chequeBanco = "cheques[".concat(indexcheque).concat("].banco");
+ 		 		selectBanco.setAttribute("name",chequeBanco);
+ 		 		selectBanco.setAttribute("th:field",chequeBanco)
+	 		 	//selectBanco.setAttribute("th:field","*{banco}");
+	 		 	selectBanco.setAttribute("class","form-control");
+	 		 	selectBanco.setAttribute("th:errorclass","'form-control alert-danger'");
+	 		 	
+ 
+	 		 	var idSelectNuevo = "#".concat(idSelectBanco);
+	 		 	
+	 
+	 		 	
+	 		 	var options = $('#selectbancohidden').html();
+	 		 	selectBanco.innerHTML = options;
+ 
+	 		 	
+	 		 	divBanco.appendChild(selectBanco);
+				div0.appendChild(divBanco);
+	 		 	
+				var divQuitar = document.createElement("div");
+				divQuitar.setAttribute("class","col-sm-4");
+				
+			 	 
+				var aQuitar = document.createElement("a");
+				aQuitar.setAttribute("href","#");
+				aQuitar.setAttribute("class","btn btn-danger btn-sm");
+				var f1 = "cargarRecibo.quitarCheque(cheque".concat(indexcheque);
+				var funcQuitar = f1.concat(")");
+				aQuitar.setAttribute("onclick",funcQuitar);
+				var contenidoAQuitar = document.createTextNode("QUITAR CHEQUE");
+				aQuitar.appendChild(contenidoAQuitar);
+	 		 	
+				divQuitar.appendChild(aQuitar);
+				div0.appendChild(divQuitar);
+					
+					
+	 		 	 
+				var div = document.createElement("div");
+				div.setAttribute("class","form-group row");
+				  
+				 
+				var labelNumero = document.createElement("label");
+				labelNumero.setAttribute("class","col-xs-2 col-form-label");
+				var contenidoNumero = document.createTextNode("Numero");
+				labelNumero.appendChild(contenidoNumero);
+					 
+				div.appendChild(labelNumero);	 
+				 
+					//div.input.{tipo date}
+		 		 	var divNumero = document.createElement("div");
+		 		 	divNumero.setAttribute("class","col-sm-4");
+		 		 	var inputNumero = document.createElement("input");
+		 		 	inputNumero.setAttribute("type","number");
+		 		 	//inputNumero.setAttribute("value","0");
+		 		 	inputNumero.setAttribute("required","");
+		 		 	inputNumero.setAttribute("id","numerocheque");
+		 		 	inputNumero.setAttribute("class","form-control col-sm-6");
+	 		 		var chequeNumero = "cheques[".concat(indexcheque).concat("].numero");
+	 		 		inputNumero.setAttribute("name",chequeNumero);
+	 		 		inputNumero.setAttribute("th:field",chequeNumero)
+		 		 	//inputNumero.setAttribute("th:field","*{numerocheque}");
+	 			 	divNumero.appendChild(inputNumero);
+				 
+		 		 	div.appendChild(divNumero);	 
+				 
+				 
+ 
+				 
+				 
+				 
+				 
+		 		 	var label = document.createElement("label");
+					 label.setAttribute("for","tipocheque");
+					 label.setAttribute("class","col-xs-4 col-form-label");
+					 var contenido  = document.createTextNode("Tipo");
+					 label.appendChild(contenido);
+					 
+					 div.appendChild(label);
+					 
+				 	 
+	 		 		//div.select.{option,option}
+	 		 		var divTipoCheque = document.createElement("div");
+	 		 		divTipoCheque.setAttribute("class","col-sm-2");
+	 		 		var selectCheque = document.createElement("select");
+	 		 		selectCheque.setAttribute("id","tipocheque");
+	 		 		//selectCheque.setAttribute("name","tipocheque[]");
+	 		 		var chequeTipo = "cheques[".concat(indexcheque).concat("].tipo");
+	 		 		selectCheque.setAttribute("name",chequeTipo);
+	 		 		selectCheque.setAttribute("th:field",chequeTipo)
+	 		 		//selectCheque.setAttribute("th:field","*{tipocheque}");
+	 		 		selectCheque.setAttribute("class","form-control");
+	 		 		selectCheque.setAttribute("th:errorclass","'form-control alert-danger'");
+	 		 		
+					 var optionDif = document.createElement("option");
+					 optionDif.setAttribute("value","Diferido");
+					 optionDif.setAttribute("class","form-control");
+					 var contenidoDif  = document.createTextNode("Diferido");
+					 optionDif.appendChild(contenidoDif);
+					
+					 var optionNoDif = document.createElement("option");
+					 optionNoDif.setAttribute("value","No Diferido");
+					 optionNoDif.setAttribute("class","form-control");
+					 var contenidoNoDif = document.createTextNode("No Diferido");
+					 optionNoDif.appendChild(contenidoNoDif);
+					 
+					 selectCheque.appendChild(optionDif);
+					 selectCheque.appendChild(optionNoDif);
+					 divTipoCheque.appendChild(selectCheque);
+				 
+					 div.appendChild(divTipoCheque);  
+					 
+					 
+					 
+			 	 	 
+		 		 	 
+		 		 	 var labelImporte = document.createElement("label");
+		 		 	 labelImporte.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoImporte = document.createTextNode("Importe");
+					 labelImporte.appendChild(contenidoImporte);
+						 
+				     div.appendChild(labelImporte);	 
+					 
+						//div.input.{tipo date}
+			 		 	var divImporte = document.createElement("div");
+			 		 	divImporte.setAttribute("class","col-sm-4");
+			 		 	var inputImporte = document.createElement("input");
+			 		 	inputImporte.setAttribute("id","pagobanco");
+			 		 	inputImporte.setAttribute("required","");
+			 		 	inputImporte.setAttribute("type","number");
+		 		 		var chequeImporte = "cheques[".concat(indexcheque).concat("].pagocheque");
+		 		 		inputImporte.setAttribute("name",chequeImporte);
+		 		 		inputImporte.setAttribute("onchange","calcular.cargarFormaPago(this.value);");
+		 		 		inputImporte.setAttribute("th:field",chequeImporte)
+			 		 	//inputImporte.setAttribute("th:field","*{fechabanco}");
+			 		 	inputImporte.setAttribute("class","form-control col-sm-6");
+			 		 	inputImporte.setAttribute("step","0.01");
+			 		 	inputImporte.setAttribute("min","0");
+			 		 	//inputImporte.setAttribute("value","0");
+ 
+			 		 	divImporte.appendChild(inputImporte);
+					 
+			 		 	div.appendChild(divImporte);	 
+			 		 	 
+					 
+			 		 var div2 = document.createElement("div");
+					 div2.setAttribute("class","form-group row");
+					 
+		 		 	 
+					//INICIO FECHA 
+					 
+					 var labelFecha = document.createElement("label");
+					 labelFecha.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoFecha = document.createTextNode("Fecha Emisión");
+					 labelFecha.appendChild(contenidoFecha);
+						 
+					 div2.appendChild(labelFecha);
+					 
+					//div.input.{tipo date}
+		 		 	var divFechaEmision = document.createElement("div");
+		 		 	divFechaEmision.setAttribute("class","col-sm-2");
+		 		 	var inputFechaEmision = document.createElement("input");
+		 		 	inputFechaEmision.setAttribute("id","fechaemision");
+		 		 	//inputFechaEmision.setAttribute("name","fechaemision[]");
+		 		 	inputFechaEmision.setAttribute("type","date");
+		 		 	var chequeFechaEmision = "cheques[".concat(indexcheque).concat("].fechaemision");
+		 		 	inputFechaEmision.setAttribute("name",chequeFechaEmision);
+		 		 	inputFechaEmision.setAttribute("th:field",chequeFechaEmision)
+		 		 	//inputFechaEmision.setAttribute("th:field","*{fechabanco}");
+		 		 	inputFechaEmision.setAttribute("class","form-control");
+		 		 	inputFechaEmision.setAttribute("min","0");
+		 		 	inputFechaEmision.setAttribute("th:errorclass","'form-control alert-danger'");
+		 		 	divFechaEmision.appendChild(inputFechaEmision);
+		 		 	
+		 		 	 div2.appendChild(divFechaEmision);
+					 
+ 			//FIN FECHA
+ 			
+ 				 		 	 
+					//INICIO FECHA 
+					 
+					 var labelFecha = document.createElement("label");
+					 labelFecha.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoFecha = document.createTextNode("Fecha Pago");
+					 labelFecha.appendChild(contenidoFecha);
+						 
+					 div2.appendChild(labelFecha);
+					 
+					//div.input.{tipo date}
+		 		 	var divFechaPago = document.createElement("div");
+		 		 	divFechaPago.setAttribute("class","col-sm-2");
+		 		 	var inputFechaPago = document.createElement("input");
+		 		 	inputFechaPago.setAttribute("id","fechabanco");
+		 		 	//inputFechaPago.setAttribute("name","fechabanco[]");
+		 		 	inputFechaPago.setAttribute("type","date");
+		 		 	var chequeFechaPago = "cheques[".concat(indexcheque).concat("].fechapago");
+		 		 	inputFechaPago.setAttribute("name",chequeFechaPago);
+		 		 	inputFechaPago.setAttribute("th:field",chequeFechaPago)
+		 		 	//inputFechaBanco.setAttribute("th:field","*{fechabanco}");
+		 		 	inputFechaPago.setAttribute("class","form-control");
+		 		 	inputFechaPago.setAttribute("min","0");
+		 		 	inputFechaPago.setAttribute("th:errorclass","'form-control alert-danger'");
+		 		 	divFechaPago.appendChild(inputFechaPago);
+		 		 	
+		 		 	 div2.appendChild(divFechaPago);
+					 
+ 			//FIN FECHA
+ 			
+					 
+					 var labelEmisor = document.createElement("label");
+					 labelEmisor.setAttribute("class","col-xs-2 col-form-label");
+					 var contenidoEmisor = document.createTextNode("Emisor");
+					 labelEmisor.appendChild(contenidoEmisor);
+						 
+					 div2.appendChild(labelEmisor);	
+					 
+					 
+						//div.input.{tipo date}
+			 		 	var divEmisor = document.createElement("div");
+			 		 	divEmisor.setAttribute("class","col-sm-4");
+			 		 	var inputEmisor = document.createElement("input");
+			 		 	inputEmisor.setAttribute("id","emisor");
+			 		 	inputEmisor.setAttribute("required","");
+			 		 	inputEmisor.setAttribute("type","text");
+			 		 	var chequeEmisor = "cheques[".concat(indexcheque).concat("].emisor");
+			 		 	inputEmisor.setAttribute("name",chequeEmisor);
+			 		 	inputEmisor.setAttribute("th:field",chequeEmisor)
+			 		 	//inputEmisor.setAttribute("th:field","*{emisor}");
+			 		 	inputEmisor.setAttribute("class","form-control");
+			 		 	inputEmisor.setAttribute("th:errorclass","'form-control alert-danger'");
+ 
+
+			 		 	divEmisor.appendChild(inputEmisor);
+					 
+			 		 	div2.appendChild(divEmisor);	
+					 
+					
+				 		 var div3 = document.createElement("div");
+						 div3.setAttribute("class","form-group row");	
+						 
+						 
+						 
+						 var labelCuit = document.createElement("label");
+						 labelCuit.setAttribute("class","col-xs-2 col-form-label");
+						 var contenidoCuit = document.createTextNode("CUIT Emisor");
+						 labelCuit.appendChild(contenidoCuit);
+							 
+						 div3.appendChild(labelCuit);	
+						 
+						 
+							//div.input.{tipo date}
+				 		 	var divComprobante = document.createElement("div");
+				 		 	divComprobante.setAttribute("class","col-sm-4");
+				 		 	var inputComprobante = document.createElement("input");
+				 		 	inputComprobante.setAttribute("id","cuitemisor");
+				 		 	inputComprobante.setAttribute("required","");
+				 		 	inputComprobante.setAttribute("type","text");
+				 		 	var chequeCuitEmisor = "cheques[".concat(indexcheque).concat("].cuitemisor");
+				 		 	inputComprobante.setAttribute("name",chequeCuitEmisor);
+				 		 	inputComprobante.setAttribute("th:field",chequeCuitEmisor)
+				 		 	//inputComprobante.setAttribute("th:field","*{cuitemisor}");
+				 		 	inputComprobante.setAttribute("class","form-control");
+				 		 	inputComprobante.setAttribute("th:errorclass","'form-control alert-danger'");
+	 
+
+				 		 	divComprobante.appendChild(inputComprobante);
+						 
+				 		 	div3.appendChild(divComprobante);	
+			 		 	
+			 		 	
+			 		 	 var labelPaguese = document.createElement("label");
+			 		 	labelPaguese.setAttribute("class","col-xs-2 col-form-label");
+						 var contenidoPaguese = document.createTextNode("Paguese A");
+						 labelPaguese.appendChild(contenidoPaguese);
+							 
+						 div3.appendChild(labelPaguese);	 
+			 		 	
+					 
+							//div.input.{tipo date}
+				 		 	var divPagueseA = document.createElement("div");
+				 		 	divPagueseA.setAttribute("class","col-sm-4");
+				 		 	var inputPagueseA = document.createElement("input");
+				 		 	inputPagueseA.setAttribute("id","pagueseacheque");
+				 		 	inputPagueseA.setAttribute("required","");
+				 		 	inputPagueseA.setAttribute("type","text");
+				 		 	var chequePagueseA = "cheques[".concat(indexcheque).concat("].paguesea");
+				 		 	inputPagueseA.setAttribute("name",chequePagueseA);
+				 		 	inputComprobante.setAttribute("th:field",chequePagueseA)
+				 		 	//inputPagueseA.setAttribute("th:field","*{pagueseacheque}");
+				 		 	inputPagueseA.setAttribute("class","form-control");
+				 		 	inputPagueseA.setAttribute("th:errorclass","'form-control alert-danger'");
+					 
+					 
+				 		 	divPagueseA.appendChild(inputPagueseA);
+							 
+				 		 	div3.appendChild(divPagueseA);	
+						 
+					 
+				//$("#itemscheques").append(divLeyenda);
+				////$("#itemscheques").append(div0);
+				//var divSelect = document.getElementById("divchequeselect");
+	 		 	//var clon = divSelect.cloneNode(true);
+	 		 	//$("#itemscheques").append(clon);
+	 			////div0.appendChild(clon)
+				
+	 		 	//$("#itemscheques").append(div);
+				//$("#itemscheques").append(div2);
+				//$("#itemscheques").append(div3);
+				
+				//
+				var divChequeNuevo = document.createElement("div");
+				var idDivCheque = "cheque".concat(indexDivCheque).concat();
+				divChequeNuevo.setAttribute("id",idDivCheque);
+				
+				
+				$(divChequeNuevo).append(divLeyenda);
+				
+				//$("#itemscheques").append(div0);
+				//var divSelect = document.getElementById("divchequeselect");
+	 		 	//var clon = divSelect.cloneNode(true);
+	 		 	
+	 		 	//var clonSelect = clon.getElementsByClassName("selectbanco");
+	 		 	//var nombre = "cheques[".concat(indexcheque).concat("].banco");
+	 		 	//console.log(clonSelect);
+	 		 	//clonSelect.setAttribute("name",nombre );
+	 		 	
+	 		 	$(divChequeNuevo).append(div0);
+	 			 
+				
+	 		 	$(divChequeNuevo).append(div);
+				$(divChequeNuevo).append(div2);
+				$(divChequeNuevo).append(div3);
+				
+				$("#chequestree").append(divChequeNuevo);
+				 
+				 
+				indexDivCheque	= indexDivCheque +1;		 
+				indexcheque = indexcheque +1 ;
+				 
+				
+			},
+			
+			quitarDepoTransfer: function(id){
+		 		 
+				console.log(id);
+				
+				var cheques = document.getElementById("depotransfertree");
+				cheques.removeChild(id);
+				
+				calcular.cargarFormaPago(0);
+				
+			},
+			
+			quitarRetencion: function(id){
+		 		 
+				console.log(id);
+				
+				var cheques = document.getElementById("retenciontree");
+				cheques.removeChild(id);
+				
+				calcular.cargarFormaPago(0);
+				
+			},
+			
+			quitarCheque: function(id){
+		 		 
+				console.log(id);
+				
+				var cheques = document.getElementById("chequestree");
+				cheques.removeChild(id);
+				
+				calcular.cargarFormaPago(0);
+				
+			},
+			
+	}
+
+	 
+ 
+		
+	</script>
+</body>
+</html>

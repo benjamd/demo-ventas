@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		
+	var calcular = {
+			actualizarIva: function(neto, iva){
+				 
+				var net = 0;
+				if(neto == null) {
+					net = 0;
+				} else {
+					
+					net =  parseFloat(neto);
+				}
+				
+				var impiva =  parseFloat(net) *  parseFloat(iva) ;
+				var imptotal = parseFloat(net) + impiva;
+				
+				var impivaf =	Math.round((impiva + Number.EPSILON) * 100) / 100;
+				var imptotalf = Math.round((imptotal + Number.EPSILON) * 100) / 100;
+				
+				$("#iva_total").html(impivaf);
+				$("#gran_total").html(imptotalf);
+				
+				
+			},
+			
+			
+	}
+ 
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Facturas</h2>
+
+ 		<hr/>
+ 		
+ 		
+ 				<div class="container">
+					<div class="row">
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/factura/nuevodetalle}" class="btn btn-info">Crear Factura Detalle</a>
+							</h4>
+						</div>
+						
+						<div class="col-xs">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/factura/buscar}" class="btn btn-success">Buscar Factura</a>
+								</h4>
+						</div>
+						
+					</div>
+				</div>
+ 		
+ 		
+		
+		<div class="card bg-light">
+			<div class="card-header bg-light" th:text="${titulo}" ></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					 
+				</h4>
+
+				<form th:action="@{/ventas/factura/nuevo}" th:object="${factura}" method="post"  >
+
+					<div class="form-group row" >
+						<label class="col-xs-2 col-form-label">Fecha</label>
+						<div class="col-sm-2">
+							<input name="fecha" id="fecha" type="date" th:field="*{fecha}" class="form-control"  min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></small>
+						</div>
+					
+						<label class="col-xs-2 col-form-label">Cond. de Venta</label>
+						<div class="col-sm-2">
+							<select id="condventa"  th:field="*{condventa}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="condventa: ${condicionesdeventa}" th:text="${condventa}" th:value="${condventa}"  class="form-control"> </option>
+						    </select>
+ 						<div th:if="${#fields.hasErrors('condventa')}" th:errors="*{condventa}"> </div>
+ 						</div>
+					
+						<label for="pVenta" class="col-xs-2 col-form-label" th:text="'punto de venta'"></label>
+						<div class="col-sm-4">
+							<select id="pVenta" name="pVenta"  th:field="*{pVenta}" class="form-control"  th:errorclass="'form-control alert-danger'" >
+								<option th:each="pVenta: ${puntosdeventa}" th:text="${pVenta.nombre + ' - Numero: ' + pVenta.numero}" th:value="${pVenta.id}"  class="form-control"> </option>
+						    </select>
+ 						</div>
+		 			</div>
+					<br/>
+					
+					<br/>
+					<div class="form-group row">
+						<label for="cliente" class="col-xs-2 col-form-label"
+							th:text="'Cliente'"></label>
+							
+						<div class="col-sm-10">
+							<select id="cliente" name="cliente" th:field="*{cliente}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="cliente: ${clientes}" th:text="${cliente.nombre + ' - '+  cliente.razonsocial }" th:value="${cliente.id}"  class="form-control"> </option>
+						    </select>
+ 					 
+							
+						</div>
+					</div>
+					
+
+					<div class="form-group row">
+						<label for="buscar_producto" class="col-xs-2 col-form-label" th:text="'Buscar productos'"></label>
+						<div class="col-sm-6">
+							<input type="text" name="buscar_producto" id="buscar_producto" class="form-control"  />
+						</div>
+					</div>
+
+					<table th:replace="/ventas/factura/plantilla-items :: itemsFactura"></table>
+
+					<table id="cargarItemProductos"
+						class="table table-sm table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Cantidad</th>
+								<th>Descripción</th>
+								<th>Precio</th>
+								<th>Descuento</th>
+								<th>Total</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<h5 class="float-right">TOTAL <span class="badge badge-secondary" id="gran_total">0</span></h5>
+							<h5 class="float-right">IVA 21% <span class="badge badge-secondary" id="iva_total">0</span></h5>
+							<h5 class="float-right">IMPORTE <span class="badge badge-secondary" id="importe_total">0</span></h5>
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group row">
+						<label for="observacion" class="col-sm-2 col-form-label" 	th:text="'Observación'"></label>
+						<div class="col-sm-4">
+							<textarea th:field="*{observacion}" placeholder="El comentario saldrá impreso al pie de la factura" class="form-control"></textarea>
+						</div>
+ 					</div>
+					
+						<div class="form-group row">
+							<div class="ml-auto">
+								<input type="submit" th:value="${titulo}" class="btn btn-success" onclick="return confirm('Confirma la creación del documento?');" />
+							</div>
+						</div>
+					
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	<input type="hidden"id="idproductoajax" th:value="@{'/ventas/factura/cargar-productos/'}" />
+	<script th:replace="/ventas/factura/js/autocomplete-repeated-items :: javascript"></script>
+ 	<script th:replace="/ventas/factura/js/blocksubmit :: javascript"></script>
+
+</body>
+</html>

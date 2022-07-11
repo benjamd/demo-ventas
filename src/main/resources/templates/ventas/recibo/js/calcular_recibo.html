@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		
+	var calcular = {
+			
+			
+			calcularSaldo: function(){
+
+				var importe = 0;
+				var importef = 0;
+				
+				$('tr[id^="fc_"]').each(function(){
+				  
+					var fimp = 0;
+					fimp += parseFloat($(this).attr("value"));
+					 
+					importe +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+		  		});
+				
+				importef =	Math.round((importe + Number.EPSILON) * 100) / 100;
+				
+			 
+				var importeorden = 0;
+				var imporden = 0;
+				
+				$('tr[id^="oe_"]').each(function(){
+				 	 
+					var fimp = 0;
+					fimp += parseFloat($(this).attr("value"));
+					 
+					imporden +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+		  		});
+				
+				importeorden =	Math.round((imporden + Number.EPSILON) * 100) / 100;
+				
+				
+				var importeordencredito = 0;
+				var impordencredito = 0;
+				
+				$('tr[id^="oc_"]').each(function(){
+				 	 
+					var fimp = 0;
+					fimp += parseFloat($(this).attr("value"));
+					 
+					impordencredito +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+		  		});
+				
+				importeordencredito =	Math.round((impordencredito + Number.EPSILON) * 100) / 100;
+				
+				
+				var importecredito = 0;
+				var impcredito = 0;
+				
+				$('tr[id^="nc_"]').each(function(){
+				 	 
+					var fimp = 0;
+					fimp += parseFloat($(this).attr("value"));
+					 
+					impcredito +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+		  		});
+				
+				importecredito =	Math.round((impcredito + Number.EPSILON) * 100) / 100;	
+				
+				var importedebito = 0;
+				var impdebito = 0;
+				
+				$('tr[id^="nd_"]').each(function(){
+				 	 
+					var fimp = 0;
+					fimp += parseFloat($(this).attr("value"));
+					 
+					impdebito +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+		  		});
+				
+				importedebito =	Math.round((impdebito + Number.EPSILON) * 100) / 100;	
+				
+				
+				
+				var importerecibo = 0;
+				var imprecibo = 0;
+				
+				$('tr[id^="re_"]').each(function(){
+				 	 
+					var fimp = 0;
+					fimp += parseFloat($(this).attr("value"));
+					 
+					imprecibo +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+		  		});
+				
+				importerecibo =	Math.round((imprecibo + Number.EPSILON) * 100) / 100;	
+				
+				
+				
+				
+				
+				
+				
+				
+			 
+				
+				var total = importef + importeorden + importedebito - importecredito - importerecibo - importeordencredito;
+			 
+				var totalf  =	Math.round((total + Number.EPSILON) * 100) / 100;	
+				
+				$('#saldopendiente').html(totalf);
+				
+		},
+		
+	
+/*		
+		
+	calcularImporte: function(){
+			console.log("calcular importe");
+			var importe = 0;
+			var importef = 0;
+			
+		$('#plantillaItemsReciboDebito tr[id^="fc_"]').each(function(){
+			  
+				var fimp = 0;
+				fimp += parseFloat($(this).attr("value"));
+				 
+				importe +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+	  		});
+			
+			importef =	Math.round((importe + Number.EPSILON) * 100) / 100;
+			
+		 
+			var importeorden = 0;
+			var imporden = 0;
+			
+			$('#plantillaItemsReciboDebito tr[id^="oe_"]').each(function(){
+			 	 
+				var fimp = 0;
+				fimp += parseFloat($(this).attr("value"));
+				 
+				imporden +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+	  		});
+			
+			importeorden =	Math.round((imporden + Number.EPSILON) * 100) / 100;
+			
+			
+			var importecredito = 0;
+			var impcredito = 0;
+			
+			$('#plantillaItemsReciboDebito tr[id^="nc_"]').each(function(){
+			 	 
+				var fimp = 0;
+				fimp += parseFloat($(this).attr("value"));
+				 
+				impcredito +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+	  		});
+			
+			importecredito =	Math.round((impcredito + Number.EPSILON) * 100) / 100;	
+			
+			var importedebito = 0;
+			var impdebito = 0;
+			
+			$('#plantillaItemsReciboDebito tr[id^="nd_"]').each(function(){
+			 	 
+				var fimp = 0;
+				fimp += parseFloat($(this).attr("value"));
+				 
+				impdebito +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+	  		});
+			
+			importedebito =	Math.round((impdebito + Number.EPSILON) * 100) / 100;	
+			
+		 
+			
+			var total = importef + importeorden + importedebito - importecredito;
+		 
+			var totalf  =	Math.round((total + Number.EPSILON) * 100) / 100;	
+			
+		 	$('#importe').html(totalf);
+			
+	},
+	*/		
+	
+	importePago: function(num){
+		console.log("importe pago");
+		console.log(num);
+
+		
+		var importe = 0;
+		var importef = 0;
+		
+	$('input[id^="impasignado_fc_"]').each(function(){
+		
+		 
+		console.log($(this).val());
+		//console.log($(this).html());	
+		
+		
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			 
+			importe +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importef =	Math.round((importe + Number.EPSILON) * 100) / 100;
+		
+ 
+		
+		var importeorden = 0;
+		var imporden = 0;
+		
+		$('input[id^="impasignado_oe_"]').each(function(){
+		 	
+			console.log($(this).attr("value"));
+			console.log($(this).html());
+			
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			 
+			imporden +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importeorden =	Math.round((imporden + Number.EPSILON) * 100) / 100;
+		 
+		
+		var importedebito = 0;
+		var impdebito = 0;
+		
+		$('input[id^="impasignado_nd_"]').each(function(){
+		 	 
+			console.log($(this).attr("value"));
+			console.log($(this).html());
+			
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			 
+			impdebito +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importedebito =	Math.round((impdebito + Number.EPSILON) * 100) / 100;	
+		 
+	 	
+		var total = importef + importeorden + importedebito;
+	 
+		var totalf  =	Math.round((total + Number.EPSILON) * 100) / 100;	
+		
+		console.log(totalf);
+		
+		$('#importe').html(totalf);
+		
+	},
+	
+	
+	cargarFormaPago: function(num){
+		console.log("importe pago");
+		console.log(num);
+
+		
+		var importeEfectivo = 0;
+		var importef = 0;
+		
+		$('input[id^="efectivo"]').each(function(){
+		
+		 
+		console.log("value"); 
+		console.log($(this).val());
+		 
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			console.log("fimp efectivo"); 
+			console.log(fimp);
+			importef +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importeEfectivo = Math.round((importef + Number.EPSILON) * 100) / 100;
+		
+		console.log("importeEfectivo");
+		console.log(importeEfectivo);
+ 
+		
+		var importeDepoTranfer = 0;
+		var impDepoTranfer = 0;
+		
+		$('input[id^="pagobanco"]').each(function(){
+		 	
+			console.log($(this).attr("value"));
+			console.log($(this).html());
+			
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			console.log("fimp pagobanco"); 
+			console.log(fimp);
+			 
+			impDepoTranfer +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importeDepoTranfer =	Math.round((impDepoTranfer + Number.EPSILON) * 100) / 100;
+		console.log("importeDepoTranfer:");
+		console.log(importeDepoTranfer); 
+		
+		var importeCheque = 0;
+		var impCheque = 0;
+		
+		$('input[id^="pagocheque"]').each(function(){
+		 	 
+			console.log($(this).attr("value"));
+			console.log($(this).html());
+			
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			console.log("fimp pagocheque"); 
+			console.log(fimp);
+			 
+			impCheque +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importeCheque =	Math.round((impCheque + Number.EPSILON) * 100) / 100;	
+		
+		
+		
+		var importeRetencion = 0;
+		var impRetencion = 0;
+		
+		$('input[id^="retencionpago"]').each(function(){
+		 	 
+			console.log($(this).attr("value"));
+			console.log($(this).html());
+			
+			var fimp = 0;
+			fimp += parseFloat($(this).val());
+			console.log("fimp retencion pago"); 
+			console.log(fimp);
+			 
+			impRetencion +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+  		});
+		
+		importeRetencion =	Math.round((impRetencion + Number.EPSILON) * 100) / 100;	
+		
+	  	
+		var total = parseFloat(importeEfectivo + importeDepoTranfer + importeCheque + importeRetencion);
+	 
+		var totalf  =	Math.round((total + Number.EPSILON) * 100) / 100;	
+		
+		console.log(totalf);
+		
+		$('#pago').html(totalf);
+		
+	},
+	
+ 
+			
+			
+}
+	
+	
+		
+	</script>
+</body>
+</html>

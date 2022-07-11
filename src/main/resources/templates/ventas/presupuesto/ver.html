@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Presupuesto</h2>
+
+ 		<hr/>
+ 		<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/nuevo}" class="btn btn-primary">Crear Presupuesto</a>
+								</h4>
+						</div>
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/nuevodetalle}" class="btn btn-info">Crear Presupuesto Detalle</a>
+							</h4>
+						</div>
+						
+						<div class="col-xs">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/buscar}" class="btn btn-success">Buscar Presupuestos</a>
+								</h4>
+						</div>
+					</div>
+				</div>
+ 		
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+		 
+		<div class="card-body">
+
+			<div class="container">
+				<div class="row"> 
+					<div class="col">
+					<!--  	<h4 class="card-title float-left"> 	</h4>	-->	 
+						
+					</div>
+					<div class="col-6">
+						<a th:href="@{'/ventas/presupuesto/ver/' + ${presupuesto.id}(format=xlsx)}"
+							class="btn btn-success btn-xs float-right">XLS</a>
+					</div>
+					<div class="col-3">
+						<ul class="list-group">
+							<li class="list-group-item list-group-item-success" th:text="'PRESUPUESTO DE VENTA ' + ${presupuesto.letra}"></li>
+							<li class="list-group-item list-group-item-success"  th:text="'Fecha: ' + ${presupuesto.fecha}"></li>
+							<li class="list-group-item list-group-item-success" th:text="${prefijonumero}"></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+				
+			<div>
+				
+				<ul class="list-group my-2">
+					<li class="list-group-item list-group-item-primary"
+						th:text="'CLIENTE: ' +  ${presupuesto.cliente.nombre} + '  - RAZÓN SOCIAL: ' +  ${presupuesto.cliente.razonsocial}"></li>
+					<li class="list-group-item" 
+					th:text="'CUIT: ' +  ${presupuesto.cliente.cuit} + '  - IVA: ' +  ${presupuesto.cliente.iva}"></li>
+					<li class="list-group-item" 
+					th:text="'DIRECCION: ' +  ${presupuesto.cliente.Direccion} + ' CP:' +  ${presupuesto.cliente.codigopostal} + ' Locaidad: ' +  ${presupuesto.cliente.localidad} + ' Prov. ' +  ${presupuesto.cliente.provincia} + ', ' +  ${presupuesto.cliente.pais}"></li>
+					<li class="list-group-item" 
+					th:text="'CONTACTO: ' +  ${presupuesto.cliente.contacto} + ' - TEL: ' + ${presupuesto.cliente.telefono}  + '  - EMAIL: ' +  ${presupuesto.cliente.email}"></li>
+					 
+				</ul>
+			</div>
+				
+				<div class="alert alert-info my-4"
+					th:if="${#lists.isEmpty(presupuesto.items)}"
+					th:text="${presupuesto.detalle}"></div>
+
+				<table th:if="${not #lists.isEmpty(presupuesto.items)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Cantidad</th>
+							<th>Descripción</th>
+							<th>Precio</th>
+							<th>Descuento</th>
+							<th>Importe Neto</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${presupuesto.items}">
+							<td th:text="${#numbers.formatDecimal(linea.cantidad, 0, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="${linea.producto.nombre}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.precio, 0, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.descuento, 1, 'POINT', 2, 'COMMA')+ '%'}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.importeNeto, 0, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			<div>
+		 		<h5 class="float-right">
+					IMPORTE <span th:text="'$' + ${#numbers.formatDecimal(presupuesto.importe,0, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+				</h5>
+			</div>
+	 
+				
+
+				<div class="card border-info mb-4" style="max-width: 20rem;">
+					<div class="card-header">Observaciones</div>
+					<div class="card-body">
+						<p class="card-text" th:text="${presupuesto.observacion}"
+							th:if="${not #strings.isEmpty(presupuesto.observacion)}"></p>
+						<h4 class="card-title"
+							th:if="${#strings.isEmpty(presupuesto.observacion)}"
+							th:text="'No tiene observaciones'"></h4>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

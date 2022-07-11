@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Recibos</h2>
+
+		<hr />
+			<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/recibo/buscar}" class="btn btn-primary">Crear Recibo</a>
+							</h4>
+						</div>
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/recibo/buscar}" class="btn btn-success">Buscar Recibo</a>
+							</h4>
+						</div>
+ 					</div>
+				</div>
+ 		
+ 		
+
+		<div class="card bg-light">
+			<div class="card-header bg-light" th:text="${titulo}"></div>
+			<div class="card-body">
+				<h4 class="card-title"></h4>
+
+				<form th:action="@{/ventas/recibo/nuevo}" th:object="${recibo}" method="post">
+
+					<div class="form-group row">
+						<label class="col-xs-2 col-form-label">Fecha</label>
+						<div class="col-sm-2">
+							<input name="fecha" id="fecha" type="date" th:field="*{fecha}"
+								class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></small>
+						</div>
+
+
+
+						<label for="pVenta" class="col-xs-2 col-form-label"
+							th:text="'punto de venta'"></label>
+						<div class="col-sm-4">
+							<select id="pVenta" name="pVenta" th:field="*{pVenta}"
+								class="form-control" th:errorclass="'form-control alert-danger'">
+								<option th:each="pVenta: ${puntosdeventa}"
+									th:text="${pVenta.nombre + ' - Numero: ' + pVenta.numero}"
+									th:value="${pVenta.id}" class="form-control"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="cliente" class="col-sm-2 col-form-label"
+							th:text="'Cliente'"></label>
+						<div class="col-sm-6">
+					  		
+					  		 
+							<input type="text" name="cliente" id="cliente" th:field="*{cliente}"	th:value="${cliente}"
+								th:text="${cliente.nombre} + ' - ' + ${cliente.razonsocial}"   class="form-control" disabled='disabled' />
+				
+						</div>
+					</div>
+
+					<hr />
+
+ 
+
+					<div class="form-group row">
+						<h5>
+							<strong>DOCUMENTOS PENDIENTES</strong>
+						</h5>
+					</div>
+
+					<table id="documentospendientes"
+						class="table table-sm table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Descripción</th>
+								<th>Saldo (valor Abs.)</th>
+								<th>Importe</th>
+								<th>Agregar</th>
+
+							</tr>
+						</thead>
+						<tbody id="itemsDocumentosPendientes">
+
+
+							<tr th:each="fc: ${recibo.facturaspendientes}" th:id="fc_ + ${fc.id}" th:value="${fc.saldopendiente}">
+								 
+								<td th:text="${fc.fecha}"></td>
+								<td th:text="'FC ' + ${fc.prefijo} + '-' +${fc.numero}"></td>
+								<td
+									th:text="'$' + ${#numbers.formatDecimal(fc.saldopendiente,0, 'POINT', 2, 'COMMA')}"></td>
+								<td
+									th:text="'$' +  ${#numbers.formatDecimal(fc.importetotal,0, 'POINT', 2, 'COMMA')}">
+								</td>
+								<td id="agregar"><a href="#" class="btn btn-info btn-sm"
+									th:onclick="cargarRecibo.agregarlineaFactura([['fc_' + ${fc.id}]], [[ ${fc.id} ]]);">AGREGAR</a></td>
+							
+							
+						
+
+							<tr th:each="credito: ${recibo.creditospendientes}" th:id="nc_ + ${credito.id}" th:value="${credito.saldopendiente}">
+							 
+								<td th:text="${credito.fecha}"></td>
+								<td
+									th:text="'NC ' + ${credito.prefijo} + '-' +${credito.numero}"></td>
+								<td
+									th:text="'$' + ${#numbers.formatDecimal(credito.saldopendiente,0, 'POINT', 2, 'COMMA')}"></td>
+								<td
+									th:text="'$-' +  ${#numbers.formatDecimal(credito.importetotal,0, 'POINT', 2, 'COMMA')}">
+								</td>
+								<td id="agregar"><a href="#" class="btn btn-info btn-sm"
+									th:onclick="cargarRecibo.agregarlineaCredito([['nc_' + ${credito.id}]], [[ ${credito.id} ]]);">AGREGAR</a></td>
+							</tr>
+
+							<tr th:each="debito: ${recibo.debitospendientes}" th:id="nd_ + ${debito.id}" th:value="${debito.saldopendiente}">
+								 
+								<td th:text="${debito.fecha}"></td>
+								<td th:text="'ND ' + ${debito.prefijo} + '-' +${debito.numero}"></td>
+								<td
+									th:text="'$' + ${#numbers.formatDecimal(debito.saldopendiente,0, 'POINT', 2, 'COMMA')}"></td>
+								<td
+									th:text="'$' +  ${#numbers.formatDecimal(debito.importetotal,0, 'POINT', 2, 'COMMA')}">
+								</td>
+								<td id="agregar"><a href="#" class="btn btn-info btn-sm"
+									th:onclick="cargarRecibo.agregarlineaDebito([['nd_' + ${debito.id}]], [[ ${debito.id} ]]);">AGREGAR</a></td>
+							</tr>
+							
+							<tr th:each="recibo: ${recibo.recibospendientes}" th:id="re_ + ${recibo.id}" th:value="${recibo.saldopendiente}">
+								 
+								<td th:text="${recibo.fecha}"></td>
+								<td th:text="'RE ' + ${recibo.prefijo} + '-' +${recibo.numero}"></td>
+								<td
+									th:text="'$' + ${#numbers.formatDecimal(recibo.saldopendiente,0, 'POINT', 2, 'COMMA')}"></td>
+								<td
+									th:text="'$-' +  ${#numbers.formatDecimal(recibo.saldoacuenta,0, 'POINT', 2, 'COMMA')}">
+								</td>
+								<td id="agregar"><a href="#" class="btn btn-info btn-sm"
+									th:onclick="cargarRecibo.agregarlineaRecibo([['re_' + ${recibo.id}]], [[ ${recibo.id} ]]);">AGREGAR</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+					<hr />
+					<div class="form-group row">
+						<h5>
+							<strong>DOCUMENTOS A CANCELAR</strong>
+						</h5>
+					</div>
+
+
+					<table
+						th:replace="/ventas/recibo/plantilla-items :: itemsReciboDebito"></table>
+
+
+					<hr />
+					<div class="form-group row">
+						<h5>
+							<strong>FORMAS DE PAGO</strong>
+						</h5>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Efectivo</label>
+						<div class="col-sm-4">
+							<input type="number" value="0" name="efectivo" min=0 step="0.01"
+								id="efectivo" th:onchange="calcular.cargarFormaPago(this.value);"   class="form-control col-sm-6" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('efectivo')}" th:errors="*{efectivo}"></small>
+						</div>
+					</div>
+
+					<hr />
+				
+				<div id="depotransfertree"> 
+					
+
+				
+					<div id="depotransfer0"> 
+					
+						<div class="form-group row">
+							<h6>
+								<strong>Deposito/Transferencia</strong>
+							</h6>
+						</div>
+				
+					 <div class="" id="itemsdepotranf">
+							
+						<div class="form-group row">
+						<div  class="col-sm-8">	</div>
+							<div  class="col-sm-4">
+ 								<a href="#" class="btn btn-danger btn-sm" 	th:onclick="cargarRecibo.quitarDepoTransfer(depotransfer0);">QUITAR DEPOSITO/TRANSFERENCIA</a>
+ 							</div>
+						</div>
+						<div class="form-group row">
+							<label for="tipobanco" class="col-xs-4 col-form-label">Tipo</label>
+							<div class="col-sm-2">
+								<select id="tipobanco" name="tipobanco[]" th:field="*{depotransfer[0].tipo}"
+									class="form-control"
+									th:errorclass="'form-control alert-danger'">
+									<option value="Deposito" class="form-control">Deposito</option>
+									<option value="Transferencia" class="form-control">Transferencia</option>
+								</select>
+
+
+							</div>
+
+							<label class="col-xs-2 col-form-label">Fecha</label>
+							<div class="col-sm-2">
+								<input name="fechabanco[]" id="fechabanco" type="date" 	th:field="*{depotransfer[0].fecha}" class="form-control" min="0"
+									th:errorclass="'form-control alert-danger'" /> 
+								<!-- 	<small 	class="form-text text-danger" th:if="${#fields.hasErrors('fechabanco')}"
+									th:errors="*{fechabanco}"></small>  -->
+							</div>
+
+							<label class="col-xs-2 col-form-label">Importe</label>
+							<div class="col-sm-4">
+								<input type="number" required value="0" name="pagobanco[]" min=0.01 th:onchange="calcular.cargarFormaPago(this.value);" 
+								th:field="*{depotransfer[0].pago}" step="0.01" id="pagobanco" class="form-control col-sm-6" /> 
+							<!-- 	<small 	class="form-text text-danger" th:if="${#fields.hasErrors('pagobanco')}"
+									th:errors="*{pagobanco}"></small>  -->
+							</div>
+ 						</div>
+
+						<div class="form-group row">
+							<label class="col-xs-2 col-form-label">Comprobante</label>
+							<div class="col-sm-4">
+							  
+								<input type="text" name="comprobante[]" id="comprobante" required
+									th:field="*{depotransfer[0].comprobante}" class="form-control"
+									th:errorclass="'form-control alert-danger'" />
+							 
+								<!-- <small
+								class="form-text text-danger"
+							  	th:if="${#fields.hasErrors('comprobante')}" th:errors="*{comprobante}" > </small> -->
+							</div>
+
+							<label class="col-xs-2 col-form-label">Banco</label>
+							 
+							<div class="col-sm-4">
+							 
+								<input type="text" name="banco[]" id="banco" required th:field="*{depotransfer[0].banco}"
+									class="form-control"
+									th:errorclass="'form-control alert-danger'" />
+							 	
+								<!-- <small
+								class="form-text text-danger"
+							  	th:if="${#fields.hasErrors('banco')}" th:errors="*{banco}" > </small> -->
+							</div>
+						</div>
+	
+		  		</div>
+		  		
+		  		</div> <!--  FIN DEPOTRANSFER0 -->
+		  	</div>
+		  			<div class="form-group row">
+						<div class="col-sm-8"></div>
+						<div class="col-sm-4">
+							<a href="#" id="adddepotransf" class="btn btn-info btn-sm"
+								th:onclick="cargarRecibo.agregarDepoTransf();">AGREGAR
+								DEPO/TRANSFERENCIA</a>
+						</div>
+					</div>
+			
+			<hr />
+    	<div id="chequestree">  
+    		<div id="bancohidden" hidden=true >  
+    			<select id="selectbancohidden" name="bancocheque[]"  th:field="*{cheques[0].banco}" class="form-control selectbanco"  th:errorclass="'form-control alert-danger'" >
+					<option   th:each="banco: ${bancos}" th:text="${banco.nombre}" th:value="${banco.nombre}"  class="form-control"> </option>
+			    </select>
+    		</div>
+    		
+    		<div id="cheque0">  
+ 
+			<div class="" id="itemscheques">
+			
+				<div class="form-group row">
+					<h6>
+						<strong>Cheque</strong>
+					</h6>
+				</div>
+			
+				<div id="divchequeselect"  class="form-group row">
+					<label for="banco" class="col-xs-2 col-form-label" th:text="'Banco'"></label>
+					<div  class="col-sm-6">
+						<select id="banco0" name="bancocheque[]"  th:field="*{cheques[0].banco}" class="form-control selectbanco"  th:errorclass="'form-control alert-danger'" >
+							<option   th:each="banco: ${bancos}" th:text="${banco.nombre}" th:value="${banco.nombre}"  class="form-control"> </option>
+					    </select>
+ 					</div>
+ 					
+ 					<div  class="col-sm-4">
+ 						<a href="#" class="btn btn-danger btn-sm" 	th:onclick="cargarRecibo.quitarCheque(cheque0);">QUITAR CHEQUE</a>
+ 					</div>
+ 					
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-xs-2 col-form-label">Numero</label>
+					<div class="col-sm-4">
+						<input type="number" value="0" required name="numerocheque[]" th:field="*{cheques[0].numero}" min=1 step="1"
+							id="numerocheque" class="form-control col-sm-6" /> 
+						<!--  	<small
+							class="form-text text-danger"
+							th:if="${#fields.hasErrors('numerocheque')}"
+							th:errors="*{numerocheque}"></small> -->
+					</div>
+
+					<label for="tipocheque" class="col-xs-4 col-form-label">Tipo</label>
+					<div class="col-sm-2">
+						<select id="tipocheque" name="tipocheque[]" th:field="*{cheques[0].tipo}"
+							class="form-control" th:errorclass="'form-control alert-danger'">
+							<option value="Diferido" class="form-control">Diferido</option>
+							<option value="No Diferido" class="form-control">No
+								Diferido</option>
+						</select>
+					</div>
+
+					<label class="col-xs-2 col-form-label">Importe</label>
+					<div class="col-sm-4">
+						<input type="number" value="0" required name="pagocheque[]"  th:onchange="calcular.cargarFormaPago(this.value);" 
+						th:field="*{cheques[0].pagocheque}"  min=0.01 step="0.01" id="pagocheque" class="form-control col-sm-6" />
+							<!--   <small
+							class="form-text text-danger"
+							th:if="${#fields.hasErrors('pagocheque')}"
+							th:errors="*{pagocheque}"></small> -->
+					</div>
+				</div>
+
+				<div class="form-group row">
+
+					<label class="col-xs-2 col-form-label">Fecha Emisión</label>
+					<div class="col-sm-2">
+						<input name="fechaemision[]" id="fechaemision" type="date" 	th:field="*{cheques[0].fechaemision}" class="form-control" min="0"
+							th:errorclass="'form-control alert-danger'" />
+						<!--   <small
+							class="form-text text-danger"
+							th:if="${#fields.hasErrors('fechaemision')}"
+							th:errors="*{fechaemision}"></small> -->	
+					</div>
+					<label class="col-xs-2 col-form-label">Fecha de Pago</label>
+					<div class="col-sm-2">
+						<input name="fechapago[]" id="fechapago" type="date" th:field="*{cheques[0].fechapago}" class="form-control" min="0"
+							th:errorclass="'form-control alert-danger'" /> 
+							<!--   <small class="form-text text-danger" th:if="${#fields.hasErrors('fechapago')}" th:errors="*{fechapago}"></small> -->
+					</div>
+
+					<label class="col-xs-2 col-form-label">Emisor</label>
+					<div class="col-sm-4">
+					   
+						<input type="text" required name="emisor[]" id="emisor" th:field="*{cheques[0].emisor}"
+							class="form-control" th:errorclass="'form-control alert-danger'" />
+					 
+						<!-- <small
+								class="form-text text-danger"
+							  	th:if="${#fields.hasErrors('emisor')}" th:errors="*{emisor}" > </small> -->
+					 
+					</div>
+				
+				</div>
+
+				<div class="form-group row">
+					<label class="col-xs-2 col-form-label">CUIT Emisor</label>
+					<div class="col-sm-4">
+					 
+						<input type="text" required name="cuitemisor[]" id="cuitemisor"
+							th:field="*{cheques[0].cuitemisor}" class="form-control"
+							th:errorclass="'form-control alert-danger'" />
+						 
+						<!-- <small
+								class="form-text text-danger"
+							  	th:if="${#fields.hasErrors('cuitemisor')}" th:errors="*{cuitemisor}" > </small> -->
+				 
+					</div>
+					<label class="col-xs-2 col-form-label">Paguese a</label>
+					<div class="col-sm-4">
+				 
+						<input type="text"  required name="pagueseacheque[]" id="pagueseacheque"
+							th:field="*{cheques[0].paguesea}" class="form-control"
+							th:errorclass="'form-control alert-danger'" />
+					 	
+						<!-- <small
+								class="form-text text-danger"
+							  	th:if="${#fields.hasErrors('pagueseacheque')}" th:errors="*{pagueseacheque}" > </small> -->
+			 
+					</div>
+
+
+				</div>
+
+			 </div>
+			</div>
+		</div> <!-- FIN CHEQUES -->
+			<div class="form-group row">
+				<div class="col-sm-8"></div>
+				<div class="col-sm-4">
+					<a href="#" id="addcheque" class="btn btn-info btn-sm"
+						th:onclick="cargarRecibo.agregarCheque();">AGREGAR CHEQUE</a>
+				</div>
+			</div>
+
+	 		<hr />
+
+				<div id="retenciontree">
+				
+				
+				</div>
+
+		  			<div class="form-group row">
+						<div class="col-sm-8"></div>
+						<div class="col-sm-4">
+							<a href="#" id="adddepotransf" class="btn btn-info btn-sm"
+								th:onclick="cargarRecibo.agregarRetencion();">AGREGAR
+								RETENCION</a>
+						</div>
+					</div>
+
+			<hr />
+			<div class="form-group row">
+				<div class="col-sm-6">
+					<h5 class="float-right">
+						SALDO PENDIENTE<span class="badge badge-secondary"
+							id="saldopendiente">0</span>
+					</h5>
+				</div>
+				<div class="col-sm-6">
+					<h5 class="float-right">
+						PAGO<span class="badge badge-secondary" id="pago">0</span>
+					</h5>
+					<h5 class="float-right">
+						IMPORTE<span class="badge badge-secondary" id="importe">0</span>
+					</h5>
+				</div>
+			<!-- 	
+				<div class="col-sm-4">
+					<h5 class="float-right">
+						A CUENTA<span class="badge badge-secondary" id="acuenta">0</span>
+					</h5>
+				</div>
+			 -->	
+			</div>
+			<div class="form-group row">
+				<label for="observacion" class="col-sm-2 col-form-label"
+					th:text="'Observación'"></label>
+				<div class="col-sm-4">
+					<textarea th:field="*{observacion}" placeholder="El comentario saldrá impreso al pie del recibo" class="form-control"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="ml-auto">
+					<input type="submit" th:value="${titulo}" class="btn btn-success" onclick="return confirm('Confirma la creación del documento?');"/>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+
+</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:replace="/ventas/recibo/js/autocomplete-documentos :: javascript"></script>
+	<script th:replace="/ventas/recibo/js/blocksubmit :: javascript"></script>	
+	<script th:replace="/ventas/recibo/js/calcular_recibo :: javascript"></script>
+	<script type="text/javascript">
+		calcular.calcularSaldo();
+	</script>
+	
+	
+
+</body>
+</html>

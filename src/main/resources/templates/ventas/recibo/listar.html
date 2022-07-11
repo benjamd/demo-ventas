@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Recibo</h2>
+		<hr/>
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/recibo/buscar}" class="btn btn-primary">Crear Recibo</a>
+								</h4>
+						</div>
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/recibo/buscar}" class="btn btn-success">Buscar Recibo</a>
+							</h4>
+						</div>
+						<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/recibo/exportar(format=xlsx)}" class="btn btn-xs btn-success float-right ">Exportar a XLS</a>
+							</h4>
+						</div>
+ 					</div>
+				</div>
+				
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>Razón Social</th>
+ 							<th>Importe</th>
+ 							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+  						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="recibo: ${recibos}">
+							<td th:text="${recibo.fecha}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/ventas/recibo/ver/} + ${recibo.id}" th:text="${recibo.prefijo} + '-' +${recibo.numero}"></a></td>
+							<td th:text="${recibo.cliente.nombre}"></td>
+							<td th:text="${recibo.cliente.razonsocial}"></td>
+							<td th:text="${recibo.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(recibo.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm"
+								th:href="@{/ventas/recibo/eliminar/} + ${recibo.id}" th:text="'eliminar'"
+								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+						</tr>
+					</tbody>
+
+				</table>
+				<nav th:replace="layout/paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

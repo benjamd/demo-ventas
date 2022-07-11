@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		$(document).ready(function() {
+
+			var urlajaxproducto = $("#idproductoajax").val();
+			
+			$("#buscar_producto").autocomplete({
+				//source busca los datos en la base
+				source : function(request, response) {
+					$.ajax({
+						url : urlajaxproducto + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						}, //success recibe los datos y pasa al el autocomplete
+						success : function(data) {
+							response($.map(data, function(item) {
+								return {
+									value : item.id,
+									label : item.nombre,
+									precio : 1,
+									//precio : item.precio,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+	
+				 	if(itemsHelper.hasProducto(ui.item.value)){
+				 		itemsHelper.dejarMismaCantidad(ui.item.value);
+				 		
+				 	 return false;
+				 	}
+					
+					var linea = $("#plantillaItemsFactura").html();
+
+					linea = linea.replace(/{ID}/g, ui.item.value);
+					linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+					 
+
+					$("#cargarItemProductos tbody").append(linea);
+ 
+					itemsHelper.calcularCantidad();
+		 
+					return false;
+					
+				}
+			});
+			
+
+			
+ 
+
+		});
+		
+		$("#formdevolucion").submit(function(){
+		 
+			$("#plantilla").remove();
+			 
+		
+			
+			return;
+		});
+
+		
+ 
+		var itemsHelper = {
+				calcularCantidad: function(){
+					 
+					
+					var importe = 0; 
+					var importef = 0;
+					
+					$('input[id^="cantidad_"]').each(function(){
+					  
+						var cantf = 0;
+ 
+						cantf += parseFloat($(this).val());
+						 
+						importef +=	Math.round((cantf + Number.EPSILON) * 100) / 100;
+			  		});
+					importe = Math.round((importef + Number.EPSILON) * 100) / 100;
+					
+					$('#gran_total').html(parseFloat(importe));
+					
+					return false;
+					
+				},
+		 
+				hasProducto: function(id){
+					
+					var resultado = false;
+					
+					$('input[name="item_id[]"]').each(function(){
+						if(parseInt(id) == parseInt($(this).val()) ){
+							resultado = true;
+						}
+					});
+					
+					return resultado;
+				},
+				incrementaCantidad: function(id){
+					var cantidad = $("#cantidad_" + id).val() ? parseInt($("#cantidad_" + id).val()) : 0;
+					$("#cantidad_" + id).val(++cantidad);
+				 
+				},
+				dejarMismaCantidad: function(id){
+					var cantidad = $("#cantidad_" + id).val() ? parseInt($("#cantidad_" + id).val()) : 0;
+					 
+					 
+				},
+	 			
+				eliminarLineaFactura: function(id){
+					$("#row_" + id).remove();
+					this.calcularCantidad();
+				},
+ 
+		}
+	 
+		
+	</script>
+</body>
+</html>

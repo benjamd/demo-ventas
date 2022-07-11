@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<h2>Ventas - Notas de Débito</h2>
+		<hr/>
+			<div class="row"> 
+			<div class="col-xs-4">
+				<h4 class="card-title ">
+					<a th:href="@{/ventas/debito/nuevo}" class="btn btn-primary">Crear Nota de Débito</a>
+				</h4>
+			</div>
+			<div class="col-sm-4">
+				<h4 class="card-title">
+					<a th:href="@{/ventas/debito/nuevodetalle}" class="btn btn-info">Crear Nota de Débito Detalle</a>
+				</h4>
+			</div>
+		</div>
+		
+ 		<hr/>
+
+		<div class="card bg-dark text-white">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				
+ 			<div th:object="${debito}" th:remove="tag">
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+					</ul>
+				</div>
+				<form th:action="@{/ventas/debito/buscar}" th:object="${debito}" method="post" enctype="multipart/form-data">
+				 
+					
+					<div class="form-group row">
+						
+						<!--  
+						<label class="col-xs-2 col-form-label">Numero entre:</label>
+						<div class="col-sm-2">
+							<input type="number" name="numeromin" id="numeromin" th:field="*{numeromin}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('numeromin')}" th:errors="*{numeromin}"></small>
+						</div>
+						<label class="col-xs-2 col-form-label">y</label>
+						<div class="col-sm-2">
+							<input type="number" name="numeromax" id="numeromax" th:field="*{numeromax}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('numeromax')}" th:errors="*{numeromax}"></small>
+						</div>
+						-->
+						
+						<label class="col-xs-2 col-form-label">Fecha entre:</label>
+						<div class="col-sm-2">
+							<input name="fechainicio" id="fechainicio" type="date" th:field="*{fechainicio}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fechainicio')}" th:errors="*{fechainicio}"></small>
+						</div>
+						<label class="col-xs-2 col-form-label">y</label>
+						<div class="col-sm-2">
+							<input type="date" name="fechafin" id="fechafin" th:field="*{fechafin}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fechafin')}" th:errors="*{fechafin}"></small>
+						</div>
+					
+					<!--
+						<label class="col-xs-2 col-form-label">Punto de Venta</label>
+						   
+						<div class="col-sm-4">
+							<select id="puntodeventa"  th:field="*{puntodeventa}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="puntodeventa: ${puntosdeventa}" th:text="${puntodeventa}" th:value="${puntodeventa}"  class="form-control"> </option>
+						    </select>
+ 						<div th:if="${#fields.hasErrors('puntodeventa')}" th:errors="*{puntodeventa}"> </div>
+						</div>
+						-->
+ 					</div>
+					<br/>
+				    <!-- 
+				    <div class="form-group row">
+						 
+						<div class="col-sm-2">
+							<input type="text" name="codigo" id="codigo" th:field="*{codigo}" class="form-control" placeholder="Codigo Cliente"
+								th:errorclass="'form-control alert-danger'" />    <!-- <small
+								class="form-text text-danger"
+							  	th:if="${#fields.hasErrors('codigo')}" th:errors="*{codigo}" > </small> -->
+					 <!-- 	</div>
+					
+				 
+						<div class="col-sm-4">
+							<input type="text" name="nombre" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Nombre Fantasía"
+								th:errorclass="'form-control alert-danger'" /> <!-- <small
+								class="form-text text-danger"
+								   th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"  > </small> --> 
+					 <!-- 	</div>
+						
+						<div class="col-sm-6">
+							<input type="text" name="razonsocial" id="razonsocial" th:field="*{razonsocial}" class="form-control" placeholder="Razón Social"
+								th:errorclass="'form-control alert-danger'" />  <!--  <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('razonsocial')}" th:errors="*{razonsocial}" >   </small>  -->
+						 <!--</div> 
+						
+					</div>
+					-->
+ 			
+			<div class="form-group row">
+						<div class="ml-auto">
+							<input type="submit" th:value="${titulo}" class="btn btn-success" />
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+ 
+  
+	</div>
+ 
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

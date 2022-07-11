@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Remitos</h2>
+
+ 		<hr/>
+ 		
+ 		<div class="container">
+					<div class="row">
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/remito/nuevodetalle}" class="btn btn-info">Crear Remito Detalle</a>
+							</h4>
+						</div>
+						
+						<div class="col-xs">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/remito/buscar}" class="btn btn-success">Buscar Remito</a>
+								</h4>
+						</div>
+						
+					</div>
+			</div>
+		
+		<div class="card bg-light">
+			<div class="card-header bg-light" th:text="${titulo}" ></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					 
+				</h4>
+
+				<form id="formremito" th:action="@{/ventas/remito/nuevo}"  th:object="${remito}" method="post">
+
+					<div class="form-group row">
+						<label class="col-xs-2 col-form-label">Fecha</label>
+						<div class="col-sm-2">
+							<input name="fecha" id="fecha" type="date" th:field="*{fecha}" class="form-control"  min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></small>
+						</div>
+					
+ 
+					
+						<label for="pVenta" class="col-xs-2 col-form-label" th:text="'punto de venta'"></label>
+						<div class="col-sm-4">
+							<select id="pVenta" name="pVenta"  th:field="*{pVenta}" class="form-control"  th:errorclass="'form-control alert-danger'" >
+								<option th:each="pVenta: ${puntosdeventa}" th:text="${pVenta.nombre + ' - Numero: ' + pVenta.numero}" th:value="${pVenta.id}"  class="form-control"> </option>
+						    </select>
+ 						</div>
+		 			</div>
+					
+					<br/>
+					
+					<br/>
+					<div class="form-group row">
+						<label for="cliente" class="col-xs-2 col-form-label"
+							th:text="'Cliente'"></label>
+							
+						<div class="col-sm-10">
+							<select id="cliente" name="cliente" th:field="*{cliente}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="cliente: ${clientes}" th:text="${cliente.nombre + ' - '+  cliente.razonsocial }" th:value="${cliente.id}"  class="form-control"> </option>
+						    </select>
+ 					 
+							
+						</div>
+					</div>
+					
+
+					<div class="form-group row">
+						<label for="buscar_producto" class="col-xs-2 col-form-label" th:text="'Buscar producto'"></label>
+						<div class="col-sm-6">
+							<input type="text" name="buscar_producto" id="buscar_producto" class="form-control"  />
+						</div>
+					</div>
+ 
+			   		
+			   
+			      	<table id="plantilla" class="d-none">
+
+					<tbody id="plantillaItemsFactura">
+						<tr id="row_{ID}">
+							<td class="d-none"><input type="hidden" value="{ID}" name="item_id[]"/></td>
+							<td>{NOMBRE}</td>
+ 							<td><input type="number" value=0   name="cantidad[]" min=0 step="0.01" placeholder="0"	id="cantidad_{ID}" 
+ 								class="form-control col-sm-4" onchange="itemsHelper.calcularCantidad();"/></td>
+ 
+							<td><a href="#" class="btn btn-danger btn-sm" onclick="itemsHelper.eliminarLineaFactura({ID});">x</a></td>
+						</tr>
+
+					</tbody>
+
+				</table>
+			   		
+			   		
+			   		
+			   	
+			   		
+			   		
+
+					<table id="cargarItemProductos"
+						class="table table-sm table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Descripción</th>
+								<th>Cantidad</th>
+				 			</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<h5 class="float-right">TOTAL <span class="badge badge-secondary" id="gran_total">0</span></h5>
+ 						</div>
+					</div>
+					<hr/>
+					<div class="form-group row">
+						<label for="observacion" class="col-sm-2 col-form-label" 	th:text="'Observación'"></label>
+						<div class="col-sm-4">
+							<textarea th:field="*{observacion}" placeholder="El comentario saldrá impreso al pie del remito" class="form-control"></textarea>
+						</div>
+ 					</div>
+					
+						<div class="form-group row">
+						 	<div class="ml-auto">
+						 		<input id="formremito" type="submit" th:value="${titulo}" class="btn btn-success" onclick="return confirm('Confirma la creación del documento?');"/>
+						 	</div>
+						</div>
+					 
+								
+					 
+				</form>
+				
+ 
+
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	<input type="hidden"id="idproductoajax" th:value="@{'/ventas/remito/cargar-productos/'}" />
+  	<script th:replace="/ventas/remito/js/autocomplete-productos :: javascript"></script>  
+  	<script th:replace="/ventas/remito/js/blocksubmit :: javascript"></script>	 
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+				<!-- class d-none la mantiene oculta, se llama por jquery -->
+	<table th:fragment="itemsFactura" class="d-none">
+
+		<tbody id="plantillaItemsFactura">
+			<tr id="row_{row_ID}">
+				<td class="d-none"><input type="hidden" value="{ID}" name="item_id[]" /></td>
+				<td><input type="number" value="1" name="cantidad[]" min=1 step="0.01"  	id="cantidad_{row_ID}" class="form-control col-sm-6" onchange="itemsHelper.calcularImporte({row_ID}, price_{row_ID}.value, this.value, descuento_{row_ID}.value );"/></td>
+				<td>{NOMBRE}</td>
+				<td><input type="number" value="1" name="price[]" min=1 step="0.01"	id="price_{row_ID}" class="form-control col-sm-6" onchange="itemsHelper.calcularImporte({row_ID}, this.value , cantidad_{row_ID}.value,  descuento_{row_ID}.value);"/></td>
+				<td><input type="number" value="0" name="descuento[]" min=0 max=100 step="0.01"	id="descuento_{row_ID}"  class="form-control col-sm-6" onchange="itemsHelper.calcularImporte({row_ID}, price_{row_ID}.value,  cantidad_{row_ID}.value, this.value);"/></td>
+				
+				<td><span id="total_importe_{row_ID}">0</span></td>
+				<td><a href="#" class="btn btn-danger btn-sm" onclick="itemsHelper.eliminarLineaFactura({row_ID});">x</a></td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+</body>
+</html>

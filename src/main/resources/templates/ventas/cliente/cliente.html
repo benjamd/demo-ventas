@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+			<h2>Ventas - Clientes</h2>
+
+ 		<hr/>
+ 		
+ 		<div class="container">
+				<div class="row">
+				<div class="col-xs">
+					<h4 class="card-title">
+						<a th:href="@{/ventas/cliente/nuevo}" class="btn btn-primary">Crear Cliente</a>
+					</h4>
+				</div>
+				<div class="col-sm">
+					<h4 class="card-title">
+						<a th:href="@{/ventas/cliente/buscar}" class="btn btn-success">Buscar Cliente</a>
+					</h4>
+				</div>
+				<div class="col-xs">
+					<h4 class="card-title">
+						<a th:href="@{/ventas/cliente/editar/} + ${cliente.id}" class="btn btn-primary">Editar</a>
+					</h4>
+				</div>
+				<div class="col-sm">
+					<h4 class="card-title">
+						<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/ventas/cliente/eliminar/} + ${cliente.id}" 
+							class="btn btn-danger" onclick="return confirm('Estás seguro que quieres eliminar?');">Eliminar</a>
+					</h4>
+				</div>
+				</div>
+			</div>
+			
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+				<!--  	<a class="btn btn-primary"
+						th:href="@{'/factura/form/' + ${cliente.id}}"
+						th:text="'crear factura'"></a> -->
+				</h4>
+				<div class="row">
+					<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/cliente/ctacteventas/(format=xlsx)}" class="btn btn-xs btn-success float-right ">CTA CTE VENTAS</a>
+					    	</h4>
+					</div>
+				</div>
+				<div class="row">
+					<ul class="list-group col-sm-10">
+						<li class="list-group-item active" th:text="${cliente.nombre}"></li>
+						<li class="list-group-item" th:text="'RAZON SOCIAL: '+ ${cliente.razonsocial}"></li>
+						<li class="list-group-item" th:text="'ACTIVIDAD: '+${cliente.actividad}"></li>
+						<li class="list-group-item" th:text="'CUIT: '+ ${cliente.cuit} +' - IVA: '+ ${cliente.iva}"></li>
+						<li class="list-group-item" th:text="'DIRECCION: '+${cliente.direccion} +' CP' + ${cliente.codigopostal} +' ' +${cliente.localidad}  +',' +${cliente.partido}+ ' Prov. '+ ${cliente.provincia} +' '+ ${cliente.pais}"  ></li>
+ 						<li class="list-group-item" th:text="'CONTACTO: '+ ${cliente.contacto} +' TEL.: '+ ${cliente.telefono} +' E-MAIL: '+ ${cliente.email} "></li>
+ 					</ul>
+				</div>
+			</div>
+			
+		</div>
+    
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

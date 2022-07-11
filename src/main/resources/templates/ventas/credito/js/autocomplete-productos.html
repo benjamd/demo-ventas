@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		$(document).ready(function() {
+
+			var urlajaxproducto = $("#idproductoajax").val();
+			
+			$("#buscar_producto").autocomplete({
+				//source busca los datos en la base
+				source : function(request, response) {
+					$.ajax({
+						url : urlajaxproducto + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						}, //success recibe los datos y pasa al el autocomplete
+						success : function(data) {
+							response($.map(data, function(item) {
+								return {
+									value : item.id,
+									label : item.nombre,
+									precio : 1,
+									//precio : item.precio,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+					//$("#buscar_producto").val(ui.item.label);
+				//COMENTAR PARA QUE NO INCREMENTE LA CANTIDAD AL CARGAR LA LINEA SI EL PRODUCTO YA FUE INGRESADO 
+				//	if(itemsHelper.hasProducto(ui.item.value)){
+				//		itemsHelper.incrementaCantidad(ui.item.value, ui.item.precio);
+				//		return false;
+				//	}
+				 	if(itemsHelper.hasProducto(ui.item.value)){
+				 		//itemsHelper.dejarMismaCantidad(ui.item.value, ui.item.precio);
+				 		return false;
+				 	}
+				
+				
+					
+					var linea = $("#plantillaItemsFactura").html();
+
+					linea = linea.replace(/{ID}/g, ui.item.value);
+					linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+					linea = linea.replace(/{PRECIO}/g, ui.item.precio);
+
+					$("#cargarItemProductos tbody").append(linea);
+					itemsHelper.calcularImporte(ui.item.value, ui.item.precio, 1, 0);
+
+					return false;
+				}
+			});
+
+			$("form").submit(function(){
+				$("#plantillaItemsFactura").remove();
+				return;
+			});
+
+		});
+		
+		var itemsHelper = {
+				calcularImporte: function(id, precio, cantidad, descuento){
+					
+					var des =  parseFloat(descuento) / 100;
+					
+					var pNeto = parseFloat(precio) - parseFloat(precio) * des;
+					
+				 	$("#total_importe_" + id).html( this.redondearDosDecimales( parseFloat(pNeto) * parseFloat(cantidad) ) );
+					//$("#total_importe_" + id).html( this.redondearDosDecimales(parseFloat(precio) * parseFloat(cantidad) )  );
+	
+				
+					this.calcularGranTotal();
+					
+				},
+				hasProducto: function(id){
+					
+					var resultado = false;
+					
+					$('input[name="item_id[]"]').each(function(){
+						if(parseInt(id) == parseInt($(this).val()) ){
+							resultado = true;
+						}
+					});
+					
+					return resultado;
+				},
+				incrementaCantidad: function(id, precio){
+					var cantidad = $("#cantidad_" + id).val() ? parseFloat($("#cantidad_" + id).val()) : 0;
+					$("#cantidad_" + id).val(++cantidad);
+					var descuento = $("#descuento_" + id).val() ? parseFloat($("#descuento_" + id).val()) : 0;
+					this.calcularImporte(id, precio, cantidad, descuento);
+				},
+				dejarMismaCantidad: function(id, precio){
+					var cantidad = $("#cantidad_" + id).val() ? parseFloat($("#cantidad_" + id).val()) : 0;
+					//$("#cantidad_" + id).val(++cantidad);
+					var descuento = $("#descuento_" + id).val() ? parseFloat($("#descuento_" + id).val()) : 0;
+					this.calcularImporte(id, precio, cantidad, descuento);
+				},
+				
+				
+				
+				eliminarLineaFactura: function(id){
+					$("#row_" + id).remove();
+					this.calcularGranTotal();
+				},
+				redondearDosDecimales: function(num){
+					var f2 = 0;
+					f2 =  Math.round((num + Number.EPSILON) * 100) / 100;
+					return f2;
+				},
+				calcularGranTotal: function(){
+					var total = 0;
+					var totalIVA = 0;
+					var importe = 0;
+					$('span[id^="total_importe_"]').each(function(){
+						
+						var fimp = 0;
+						fimp += parseFloat($(this).html());
+						importe +=	Math.round((fimp + Number.EPSILON) * 100) / 100;
+						 
+						var fiva = (0.21 * parseFloat($(this).html()));
+						totalIVA +=	Math.round((fiva + Number.EPSILON) * 100) / 100;
+					 
+						var ftotal = importe + totalIVA;
+						total = Math.round((ftotal + Number.EPSILON) * 100) / 100;
+						
+					});
+					
+					importef =	Math.round((importe + Number.EPSILON) * 100) / 100;
+					totalIVAf =	Math.round((totalIVA + Number.EPSILON) * 100) / 100;
+					totalf = Math.round((total + Number.EPSILON) * 100) / 100;
+					
+					$('#importe_total').html(importef);
+					$('#iva_total').html(totalIVAf); 
+					$('#gran_total').html(totalf);
+					
+				},
+				calcularIVA: function(){
+					var totalIVA = 0;
+					
+					$('span[id^="total_iva_"]').each(function(){
+						totalIVA += (0.21 * parseFloat($(this).html()));
+					});
+					
+					$('#iva_total').html(totalIVA);
+				},
+				
+				
+				
+				
+				
+		}
+		
+ 
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Recibo</h2>
+		<hr/>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-2">
+					<h4 class="card-title">
+						<a th:href="@{/ventas/recibo/buscar}" class="btn btn-primary">Crear Recibo</a>
+					</h4>
+				</div>
+				<div class="col-sm-4">
+					<h4 class="card-title">
+						<a th:href="@{/ventas/recibo/buscar}" class="btn btn-success">Buscar Recibo</a>
+					</h4>
+				</div>
+ 			</div>
+		</div>
+ 		
+
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+		 
+		<div class="card-body">
+
+			<div class="container">
+				<div class="row"> 
+					<div class="col">
+					<!--  	<h4 class="card-title float-left"> 	</h4>	-->	 
+						
+					</div>
+
+					<div class="col-3">
+						<ul class="list-group">
+							<li class="list-group-item list-group-item-success" th:text="'RECIBO '"></li>
+							<li class="list-group-item list-group-item-success"  th:text="'Fecha: ' + ${recibo.fecha}"></li>
+							<li class="list-group-item list-group-item-success" th:text="${prefijonumero}"></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+				
+			<div>
+				
+				<ul class="list-group my-2">
+					<li class="list-group-item list-group-item-primary"
+						th:text="'CLIENTE: ' +  ${recibo.cliente.nombre} + '  - RAZÓN SOCIAL: ' +  ${recibo.cliente.razonsocial}"></li>
+					<li class="list-group-item" 
+					th:text="'CUIT: ' +  ${recibo.cliente.cuit} + '  - IVA: ' +  ${recibo.cliente.iva}"></li>
+					<li class="list-group-item" 
+					th:text="'DIRECCION: ' +  ${recibo.cliente.Direccion} + ' CP:' +  ${recibo.cliente.codigopostal} + ' Locaidad: ' +  ${recibo.cliente.localidad} + ' Prov. ' +  ${recibo.cliente.provincia} + ', ' +  ${recibo.cliente.pais}"></li>
+					<li class="list-group-item" 
+					th:text="'CONTACTO: ' +  ${recibo.cliente.contacto} + ' - TEL: ' + ${recibo.cliente.telefono}  + '  - EMAIL: ' +  ${recibo.cliente.email}"></li>
+					 
+				</ul>
+			</div>
+				<!--  
+				<div class="alert alert-info my-4"
+					th:if="${#lists.isEmpty(recibo.items)}"
+					th:text="${recibo.detalle}"></div>
+				-->
+				<table th:if="${not #lists.isEmpty(recibo.facturas)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Documento</th>
+							<th>Numero</th>
+							<th>Importe Factura</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.facturas}">
+							<td th:text="${linea.factura.fecha}"></td>
+							<td th:text="${linea.factura.documento} +' '+ ${linea.factura.letra}"></td>
+							<td th:text="${linea.factura.prefijo} + '-' + ${linea.factura.numero}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.factura.importetotal, 1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.importepago, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			
+				<table th:if="${not #lists.isEmpty(recibo.debitos)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Documento</th>
+							<th>Numero</th>
+							<th>Importe Débito</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.debitos}">
+							<td th:text="${linea.debito.fecha}"></td>
+							<td th:text="${linea.debito.documento} + ' '+ ${linea.debito.letra}"></td>
+							<td th:text="${linea.debito.prefijo}  + '-' + ${linea.debito.numero}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.debito.importetotal, 1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.importepago, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>
+	
+				<table th:if="${not #lists.isEmpty(recibo.creditos)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Documento</th>
+							<th>Numero</th>
+							<th>Importe Crédito</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.creditos}">
+							<td th:text="${linea.credito.fecha}"></td>
+							<td th:text="${linea.credito.documento} + ' ' + ${linea.credito.letra}"></td>
+							<td th:text="${linea.credito.prefijo} + '-' + ${linea.credito.numero}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.credito.importetotal, 1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$-'+ ${#numbers.formatDecimal(linea.importepago, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>		
+				
+				<table th:if="${not #lists.isEmpty(recibo.recibos)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Documento</th>
+							<th>Numero</th>
+							<th>Importe Recibo</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.recibos}">
+							<td th:text="${linea.recibo.fecha}"></td>
+							<td th:text="${linea.recibo.documento}"></td>
+							<td th:text="${linea.recibo.prefijo} + '-' + ${linea.recibo.numero}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.recibo.importetotal, 1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$-'+ ${#numbers.formatDecimal(linea.importependiente, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>	
+				
+				<hr>
+				
+				<div>
+					<h5> <strong>Formas de Pago</strong></h5>
+				</div>
+				<br>
+				<div> <h6> <strong> Efectivo</strong></h6> </div>
+				<div th:text="'Importe: $' + ${recibo.efectivo}"> </div>
+	
+				<br>
+
+				<h6> <strong>Depositos/Transferencias</strong> </h6>
+				
+				 <table th:if="${not #lists.isEmpty(recibo.itemsdepotransferencias)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Tipo</th>
+							<th>Banco</th>
+							<th>Comprobante</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.itemsdepotransferencias}">
+							<td th:text="${linea.depositotranferencia.fecha}"></td>
+							<td th:text="${linea.depositotranferencia.tipo}"></td>
+							<td th:text="${linea.depositotranferencia.banco}"></td>
+							<td th:text="${linea.depositotranferencia.comprobante}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.depositotranferencia.pago, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>	
+				
+								<br>
+
+				<h6> <strong>Cheques</strong> </h6>
+				
+				 <table th:if="${not #lists.isEmpty(recibo.itemscheques)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha Emision</th>
+							<th>Fecha Pago</th>
+							<th>Tipo</th>
+							<th>Banco</th>
+							<th>Numero</th>
+							<th>CUIT Emisor</th>
+							<th>Paguese A</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.itemscheques}">
+							<td th:text="${linea.cheque.fechaemision}"></td>
+							<td th:text="${linea.cheque.fechapago}"></td>
+							<td th:text="${linea.cheque.tipo}"></td>
+							<td th:text="${linea.cheque.banco}"></td>
+							<td th:text="${linea.cheque.numero}"></td>
+							<td th:text="${linea.cheque.cuitemisor}"></td>
+							<td th:text="${linea.cheque.paguesea}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.cheque.pagocheque, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>	
+				
+				<br>
+
+				<h6> <strong>Retenciones</strong> </h6>
+				
+				 <table th:if="${not #lists.isEmpty(recibo.itemsretenciones)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Tipo</th>
+							<th>Importe Pago</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${recibo.itemsretenciones}">
+							<td th:text="${linea.retencion.fecha}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.retencion.numero, 1, 'POINT', 0, 'COMMA')}"></td>
+							<td th:text="${linea.retencion.tipo}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.retencion.pago, 1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+				</table>	
+				
+				
+				
+		  	
+			<div>
+				
+			<h5 class="float-right">
+					IMPORTE TOTAL <span th:text="'$' + ${#numbers.formatDecimal(recibo.importetotal,1, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+			</h5>
+			
+			<h5 class="float-right">
+				SALDO A CUENTA	 <span th:text="'$' + ${#numbers.formatDecimal(recibo.saldoacuenta,1, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+			</h5>
+
+			</div>
+	 
+				
+
+				<div class="card border-info mb-4" style="max-width: 20rem;">
+					<div class="card-header">Observaciones</div>
+					<div class="card-body">
+						<p class="card-text" th:text="${recibo.observacion}"
+							th:if="${not #strings.isEmpty(recibo.observacion)}"></p>
+						<h4 class="card-title"
+							th:if="${#strings.isEmpty(recibo.observacion)}"
+							th:text="'No tiene observaciones'"></h4>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+			<h2>Upload - Resultado</h2>
+
+ 		<hr/>
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div class="container">
+						<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/factura/resultado(format=json)}" class="btn btn-xs btn-warning float-right ">Exportar a Json</a>
+								</h4>
+						</div>	
+
+
+				
+
+
+		<div>
+		<h4>Facturas - Importadas exitosamente</h4>
+		<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>Razón Social</th>
+ 							<th>Imp. Neto</th>
+ 							<th>Imp. IVA</th>
+ 							<th>Importe Total</th>
+ 						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="factura: ${documentos}">
+						 	<td th:text="${factura.fecha}"></td>
+							<td th:text="${factura.prefijo} + '-' +${factura.numero}"></td>
+							<td th:text="${factura.cliente.nombre}"></td>
+							<td th:text="${factura.cliente.razonsocial}"></td>
+							<td th:text="${factura.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importeiva,1, 'POINT', 2, 'COMMA')}"></td>
+ 							<td th:text="'$' + ${#numbers.formatDecimal(factura.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>	
+			
+			<hr/>
+			
+		<div>
+		<h4>Facturas - No existe cliente en el sistema</h4>
+		<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>Razón Social</th>
+ 							<th>Imp. Neto</th>
+ 							<th>Imp. IVA</th>
+ 							<th>Importe Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="factura: ${documentossincliente}">
+						 	<td th:text="${factura.fecha}"></td>
+							<td th:text="${factura.prefijo} + '-' +${factura.numero}"></td>
+							<td th:text="${factura.cliente.nombre}"></td>
+							<td th:text="${factura.cliente.razonsocial}"></td>
+							<td th:text="${factura.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importeiva,1, 'POINT', 2, 'COMMA')}"></td>
+ 							<td th:text="'$' + ${#numbers.formatDecimal(factura.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+			
+			
+						<hr/>
+			
+		<div>
+		<h4>Facturas - Duplicadas</h4>
+		<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>Razón Social</th>
+ 							<th>Imp. Neto</th>
+ 							<th>Imp. IVA</th>
+ 							<th>Importe Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="factura: ${documentosduplicados}">
+						 	<td th:text="${factura.fecha}"></td>
+							<td th:text="${factura.prefijo} + '-' +${factura.numero}"></td>
+							<td th:text="${factura.cliente.nombre}"></td>
+							<td th:text="${factura.cliente.razonsocial}"></td>
+							<td th:text="${factura.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importeiva,1, 'POINT', 2, 'COMMA')}"></td>
+ 							<td th:text="'$' + ${#numbers.formatDecimal(factura.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+			
+									<hr/>
+			
+		<div>
+		<h4>Facturas - No existe punto de venta en el sistema</h4>
+		<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>Razón Social</th>
+ 							<th>Imp. Neto</th>
+ 							<th>Imp. IVA</th>
+ 							<th>Importe Total</th>
+							 
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="factura: ${documentossinptovta}">
+							<td th:text="${factura.fecha}"></td>
+							<td th:text="${factura.prefijo} + '-' +${factura.numero}"></td>
+							<td th:text="${factura.cliente.nombre}"></td>
+							<td th:text="${factura.cliente.razonsocial}"></td>
+							<td th:text="${factura.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(factura.importeiva,1, 'POINT', 2, 'COMMA')}"></td>
+ 							<td th:text="'$' + ${#numbers.formatDecimal(factura.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+			
+			</div>				
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
+				
+				

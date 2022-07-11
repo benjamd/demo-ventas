@@ -1,0 +1,154 @@
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Notas de Crédito</h2>
+
+ 		<hr/>
+ 		
+ 			<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/nuevo}" class="btn btn-primary">Crear Nota de Crédito</a>
+								</h4>
+						</div>
+						
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/buscar}" class="btn btn-success">Buscar Nota de Crédito</a>
+								</h4>
+						</div>
+						
+
+					</div>
+				</div>
+		
+		<div class="card bg-light">
+			<div class="card-header bg-light" th:text="${titulo}" ></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					 
+				</h4>
+
+				<form th:action="@{/ventas/credito/nuevodetalle}" th:object="${credito}" method="post">
+
+					<div class="form-group row" >
+						<label class="col-xs-2 col-form-label">Fecha</label>
+						<div class="col-sm-2">
+							<input name="fecha" id="fecha" type="date" th:field="*{fecha}" class="form-control"  min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></small>
+						</div>
+					
+						<label class="col-xs-2 col-form-label">Cond. de Venta</label>
+						<div class="col-sm-2">
+							<select id="condventa"  th:field="*{condventa}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="condventa: ${condicionesdeventa}" th:text="${condventa}" th:value="${condventa}"  class="form-control"> </option>
+						    </select>
+ 						<div th:if="${#fields.hasErrors('condventa')}" th:errors="*{condventa}"> </div>
+ 						</div>
+					
+					
+					
+						<label for="pVenta" class="col-xs-2 col-form-label" th:text="'punto de venta'"></label>
+					  	<div class="col-sm-4">
+							<select id="pVenta" name="pVenta"  th:field="*{pVenta}" class="form-control"  th:errorclass="'form-control alert-danger'" >
+								<option th:each="pVenta: ${puntosdeventa}" th:text="${pVenta.nombre + ' - Numero: ' + pVenta.numero}" th:value="${pVenta.id}"  class="form-control"> </option>
+						    </select>
+ 						</div>
+		 	
+					
+					</div>
+
+
+					<div class="form-group row">
+						<label for="cliente" class="col-xs-2 col-form-label"
+							th:text="'Cliente'"></label>
+							
+						<div class="col-sm-10">
+							<select id="cliente" name="cliente" th:field="*{cliente}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="cliente: ${clientes}" th:text="${cliente.nombre + ' - '+  cliente.razonsocial }" th:value="${cliente.id}"  class="form-control"> </option>
+						    </select>
+ 					  <!-- 	<div th:if="${#fields.hasErrors('cliente')}" th:errors="*{cliente}"> </div> -->	
+							
+						</div>
+					</div>
+					
+					<hr/>
+					<div class="form-group row">
+						<label for="detalle" class="col-xs col-form-label" 	th:text="'Detalle'"></label>
+						<div class="col-sm-10">
+							<textarea name="detalle" id="detalle" th:field="*{detalle}"  class="form-control" th:errorclass="'form-control alert-danger'"></textarea>
+							<small 	class="form-text text-danger" th:if="${#fields.hasErrors('detalle')}" th:errors="*{detalle}"></small>
+						</div>
+					</div>
+
+
+					<hr/>
+					<div class="form-group row">
+					  
+					<label class="col-xs-2 col-form-label">Importe Neto</label>
+						<div class="col-sm-2">
+							<input type="number" name="importe" id="importe" th:field="*{importe}" class="form-control" placeholder="0" min="0" step="0.01"
+								onchange="calcular.actualizarIva(this.value, iva.value);"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('importe')}" th:errors="*{importe}"></small>
+						</div>
+				
+				 		 <div class="col-xs-2"></div>
+ 							<label for="cliente" class="col-xs-2 col-form-label" th:text="'IVA'"></label>
+							<div class="col-sm-2">
+							<select id="iva" name="iva" th:field="*{iva}" class="form-control" onchange="calcular.actualizarIva(importe.value, this.value);" th:errorclass="'form-control alert-danger'" >
+								<option value="0.21">21 %</option>
+								<option value="0.105">10,5 %</option>
+						    </select>
+ 					 		</div>
+ 						<h5 class=" "><span class="badge badge-secondary" id="iva_total">0</span></h5>		
+		 
+ 						<div class="col-sm-4">
+ 						<div class="col-sm-8">
+							<h5 class=" ">TOTAL <span class="badge badge-secondary" id="gran_total">0</span></h5>
+ 						 </div>
+						 
+						</div>
+ 				
+ 				
+ 					</div>
+   
+				 
+					
+					
+					<hr/>
+					<div class="form-group row">
+						<label for="observacion" class="col-sm-2 col-form-label" 	th:text="'Observación'"></label>
+						<div class="col-sm-4">
+							<textarea th:field="*{observacion}" placeholder="El comentario saldrá impreso al pie de la nota de crédito" class="form-control"></textarea>
+						</div>
+ 					</div>
+					
+						<div class="form-group row">
+							<div class="ml-auto">
+								<input type="submit" th:value="${titulo}" class="btn btn-success" onclick="return confirm('Confirma la creación del documento?');"/>
+							</div>
+						</div>
+					
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:replace="/ventas/credito/js/actualizar_totaliva :: javascript"></script>
+	<script th:replace="/ventas/credito/js/blocksubmit :: javascript"></script>
+
+</body>
+</html>

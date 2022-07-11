@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+<meta charset="UTF-8" />
+<title th:text="'RECICLADOS PLASTICOS | ' + ${titulo}"></title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" />
+<script src="https://kit.fontawesome.com/195f28af68.js"
+	crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	href="https://fonts.googleapis.com/css2?family=Alata&family=Bree+Serif&display=swap"
+	rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" th:href="@{/}">RECICLADOS PLASTICOS</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+
+				<ul class="navbar-nav mr-auto">
+
+					<li class="nav-item dropdown">
+						<a 	class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
+							aria-haspopup="true" aria-expanded="false">Productos y Materiales</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/producto/buscar}">Productos y Materiales</a>
+							<a class="dropdown-item" th:href="@{/unidades/listar}">Unidades</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a 	class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
+							aria-haspopup="true" aria-expanded="false">Ventas</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/ventas/cliente/buscar}">Clientes</a>
+							<a class="dropdown-item" th:href="@{/ventas/factura/buscar}">Facturas</a>
+							<a class="dropdown-item" th:href="@{/ventas/credito/buscar}">Notas de Crédito</a>
+							<a class="dropdown-item" th:href="@{/ventas/debito/buscar}">Notas de Débito</a>
+							<a class="dropdown-item" th:href="@{/ventas/recibo/buscar}">Recibos</a>
+							<a class="dropdown-item" th:href="@{/ventas/presupuesto/buscar}">Presupuestos de Venta</a>
+							<a class="dropdown-item" th:href="@{/ventas/remito/buscar}">Remitos</a>
+							<a class="dropdown-item" th:href="@{/ventas/devolucion/buscar}">Devoluciones</a>
+							<a class="dropdown-item" th:href="@{/ventas/reporte/buscar}">Reportes</a>
+						</div>
+					</li>					
+					<li class="nav-item dropdown">
+						<a 	class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
+							aria-haspopup="true" aria-expanded="false">Parámetros</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/puntodeventa/listar}">Puntos de Venta</a>
+							<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/usuarios/buscar}">Usuarios</a>
+						</div>
+					</li>
+
+				</ul>
+
+				<!-- INICIAR SESION -->
+
+				<ul class="navbar-nav navbar-right">
+					<li sec:authorize="!isAuthenticated()" class="nav-item "><a
+						class="nav-link btn btn-outline-primary" th:href="@{/login}">Iniciar
+							sesión</a></li>
+
+					<li sec:authorize="isAuthenticated()" class="dropdown"><a
+						class="btn btn-outline-primary dropdown-toggle" href="#"
+						role="button" id="dropdownMenuLink" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"><span
+							sec:authentication="name"></span></a>
+
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<form id="logoutForm" th:action="@{/logout}" method="post">
+								<button class="dropdown-item btn btn-outline-primary"
+									onclick="document.getElementById('logoutForm').submit();"
+									type="submit">Salir</button>
+							</form>
+						</div></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="alert alert-success" th:if="${success != null}"
+			th:text="${success}"></div>
+		<div class="alert alert-danger" th:if="${error != null}"
+			th:text="${error}"></div>
+		<div class="alert alert-warning" th:if="${warning != null}"
+			th:text="${warning}"></div>
+		<div class="alert alert-info" th:if="${info != null}"
+			th:text="${info}"></div>
+	</header>
+
+	<div class="container"></div>
+
+	<footer th:fragment="footer" class="container">
+		<hr />
+
+		<p sec:authorize="isAuthenticated()" class="text-right">
+			USUARIO: <span sec:authentication="name"></span> | ROLES: <span
+				sec:authentication="principal.authorities"></span>
+		</p>
+
+
+		<p>
+			<br />
+		</p>
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Bootstrap JS -->
+		<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/js/popper.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"></script>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+	
+	<h2>Ventas - Notas de Crédito</h2>
+	<hr/>
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/nuevo}" class="btn btn-primary">Crear Nota de Crédito</a>
+								</h4>
+						</div>
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/nuevodetalle}" class="btn btn-info">Crear Nota de Crédito Detalle</a>
+							</h4>
+						</div>
+						
+						<div class="col-xs">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/buscar}" class="btn btn-success">Buscar Nota de Crédito</a>
+								</h4>
+						</div>
+						
+						<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/exportar(format=xlsx)}" class="btn btn-xs btn-success float-right ">Exportar a XLS</a>
+								</h4>
+						</div>
+					 <!--   
+					  <div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/credito/listar(format=json)}" class="btn btn-xs btn-warning float-right ">Exportar a JSON</a>
+								</h4>
+						</div>
+					-->	
+						
+					</div>
+				</div>
+				
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>CUIT</th>
+ 							<th>Imp. Neto</th>
+ 							<th>Imp. IVA</th>
+ 							<th>Importe Total</th>
+ 							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+							 
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="credito: ${creditos}">
+						 	<td th:text="${credito.fecha}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/ventas/credito/ver/} + ${credito.id}" th:text="${credito.prefijo} + '-' +${credito.numero}"></a></td>
+							<td th:text="${credito.cliente.nombre}"></td>
+							<td th:text="${credito.cliente.razonsocial}"></td>
+							<td th:text="${credito.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(credito.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(credito.importeiva,1, 'POINT', 2, 'COMMA')}"></td>
+ 							<td th:text="'$' + ${#numbers.formatDecimal(credito.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm"
+								th:href="@{/ventas/credito/eliminar/} + ${credito.id}" th:text="'eliminar'"
+								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+ 
+						</tr>
+					</tbody>
+
+				</table>
+				<nav th:replace="layout/paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+			<h2>Ventas - Reportes </h2>
+
+ 		<hr/>
+ 		
+ 		<div class="row"> 
+			<h4 class="card-title col-sm-2">
+				<a th:href="@{/ventas/reporte/buscar}" class="btn btn-success">Ventas - Reportes</a>
+			</h4>
+		</div>
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+			
+ 			
+				<div class="container">
+					<div class="row">
+						 
+						<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/reporte/exportarreporteiva(format=xlsx)}" class="btn btn-xs btn-success float-right ">Exportar IVA Ventas</a>
+								</h4>
+						</div>
+						
+					</div>
+				</div>
+				
+				<br/>
+				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							 
+							<th>Fecha</th>
+							<th>Documento</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>CUIT</th>
+ 							<th>Imp. Neto</th>
+ 							<th>Imp. IVA</th>
+ 							<th>Importe Total</th>
+ 							 
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="documento: ${documentos}">
+	 						<td th:text="${documento.fecha}"></td>
+	 						<td th:text="${documento.documento}"></td>
+							<td	th:text="${documento.prefijo} + '-' +${documento.numero}"></td>
+							<td th:text="${documento.cliente.nombre}"></td>
+							<td th:text="${documento.cliente.razonsocial}"></td>
+							<td th:text="${documento.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(documento.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(documento.importeiva,1, 'POINT', 2, 'COMMA')}"></td>
+ 							<td th:text="'$' + ${#numbers.formatDecimal(documento.importetotal,1, 'POINT', 2, 'COMMA')}"></td>
+ 	
+							 
+						</tr>
+					</tbody>
+
+				</table>
+			<!--	<nav th:replace="layout/paginator-nav :: paginator"></nav> -->
+			</div>
+		</div>
+
+	</div>
+
+	  <footer th:replace="layout/layout :: footer"></footer>  
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<h2>Ventas - Facturas</h2>
+		<hr />
+		<div class="row">
+			<h4 class="card-title col-sm-2">
+				<a th:href="@{/ventas/factura/nuevo}" class="btn btn-primary">Crear
+					Factura</a>
+
+			</h4>
+			<h4 class="card-title col-sm-2">
+				<a th:href="@{/ventas/factura/nuevodetalle}" class="btn btn-info">Crear
+					Factura Detalle</a>
+			</h4>
+
+		</div>
+
+		<hr />
+
+		<div class="card bg-dark text-white">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<div th:object="${factura}" th:remove="tag">
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+					</ul>
+				</div>
+				<form th:action="@{/ventas/factura/buscar}" th:object="${factura}"
+					method="post" enctype="multipart/form-data">
+
+
+					<div class="form-group row">
+
+						<label class="col-xs-2 col-form-label">Fecha entre:</label>
+						<div class="col-sm-2">
+							<input name="fechainicio" id="fechainicio" type="date"
+								th:field="*{fechainicio}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fechainicio')}"
+								th:errors="*{fechainicio}"></small>
+						</div>
+						<label class="col-xs-2 col-form-label">y</label>
+						<div class="col-sm-2">
+							<input type="date" name="fechafin" id="fechafin"
+								th:field="*{fechafin}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fechafin')}" th:errors="*{fechafin}"></small>
+						</div>
+
+						<label class="col-xs-2 col-form-label">Numero entre:</label>
+						<div class="col-sm-2">
+							<input type="number" name="numeromin" id="numeromin"
+								th:field="*{numeromin}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" placeholder="0" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('numeromin')}"
+								th:errors="*{numeromin}"></small>
+						</div>
+						<label class="col-xs-2 col-form-label">y</label>
+						<div class="col-sm-2">
+							<input type="number" name="numeromax" id="numeromax"
+								th:field="*{numeromax}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" placeholder="0" />
+							<small class="form-text text-danger"
+								th:if="${#fields.hasErrors('numeromax')}"
+								th:errors="*{numeromax}"></small>
+						</div>
+
+
+					</div>
+
+					<div class="form-group row">
+						<label class="col-xs-2 col-form-label">Importe entre:</label>
+						<div class="col-sm-2">
+							<input type="number" name="importemin" id="importemin"
+								th:field="*{importemin}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" step="0.01"
+								placeholder="0" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('importemin')}"
+								th:errors="*{importemin}"></small>
+						</div>
+						<label class="col-xs-2 col-form-label">y</label>
+						<div class="col-sm-2">
+							<input type="number" name="importemax" id="importemax"
+								th:field="*{importemax}" class="form-control" min="0"
+								th:errorclass="'form-control alert-danger'" step="0.01"
+								placeholder="0" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('importemax')}"
+								th:errors="*{importemax}"></small>
+						</div>
+						<label class="col-xs-2 col-form-label">Prefijo</label>
+						<div class="col-sm-2">
+							<input type="text" maxlength="4" placeholder="Por ej. 0001"
+								th:field="*{prefijo}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('prefijo')}" th:errors="*{prefijo}"></small>
+						</div>
+<!-- 
+						<label for="pVenta" class="col-xs-2 col-form-label"
+							th:text="'Pto. de venta'"></label>
+						<div class="col-sm">
+							<select id="pVenta" name="pVenta" th:field="*{pVenta}"
+								class="form-control" th:errorclass="'form-control alert-danger'">
+								<option th:text="''" th:value="${0}" class="form-control"></option>
+								<option th:each="pVenta: ${puntosdeventa}"
+									th:text="${pVenta.nombre}" th:value="${pVenta.id}"
+									class="form-control"></option>
+							</select>
+						</div>
+ -->
+					</div>
+
+
+
+					<label class="col-xs-2 col-form-label">Cliente</label>
+					<div class="form-group row">
+
+						<div class="col-sm-4">
+							<input type="text" name="nombre" id="nombre" th:field="*{nombre}"
+								class="form-control" placeholder="Nombre Fantasía"
+								th:errorclass="'form-control alert-danger'" />
+	 					</div>
+
+						<div class="col-sm-6">
+							<input type="text" name="razonsocial" id="razonsocial"
+								th:field="*{razonsocial}" class="form-control"
+								placeholder="Razón Social"
+								th:errorclass="'form-control alert-danger'" />
+	 					</div>
+
+					</div>
+
+
+					<div class="form-group row">
+						<div class=" ml-auto">
+							<input type="submit" th:value="${titulo}" class="btn btn-success" />
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+
+
+
+	</div>
+
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Puntos de Venta</h2>
+		<hr/>
+		<div class="container">
+				<div class="row">
+					<div class="col-xs">
+						<h4 class="card-title">
+							<a th:href="@{/puntodeventa/listar}" class="btn btn-success">Buscar Puntos de Venta</a>
+						</h4>
+					</div>
+			</div>
+		</div>
+
+		<div class="card bg-dark text-white">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<div th:object="${puntodeventa}" th:remove="tag">
+					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+					</ul>
+				</div>
+				<form th:action="@{/puntodeventa/nuevo}" th:object="${puntodeventa}" method="post" enctype="multipart/form-data">
+					
+					
+					<div class="form-group row">
+						<label class="col-xs-2 col-form-label">Nombre</label>
+						<div class="col-sm-10">
+							<input type="text" th:field="*{nombre}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+						</div>
+					</div>
+
+ 						
+ 					
+ 					
+			    	<div class="form-group row">
+			    		<label class="col-xs-2 col-form-label">Documento</label>
+						<div class="col-sm-2">
+							<select id="iva"  th:field="*{documento}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="documento: ${documentos}" th:text="${documento}" th:value="${documento}"  class="form-control"> </option>
+						    </select>
+ 						<!-- <div th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"> </div> -->
+ 						</div>
+ 					
+ 
+						
+						<label class="col-xs-2 col-form-label">Tipo</label>
+						<div class="col-sm-2">
+							<input type="text" maxlength="1" placeholder="Por ej. letra A,B,R,D" th:field="*{tipo}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></small>
+						</div>
+						
+						<label class="col-xs-2 col-form-label">Prefijo</label>
+						<div class="col-sm-2">
+							<input type="text" maxlength="4" placeholder="Por ej. 0001" th:field="*{prefijo}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('prefijo')}" th:errors="*{prefijo}"></small>
+						</div>
+						
+						<label class="col-xs-2 col-form-label">Numero</label>
+						<div class="col-sm-2">
+							<input type="number" min="1" placeholder="Por ej. 1" th:field="*{numero}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}"></small>
+						</div>
+						
+					
+					</div>
+		
+					<br/>
+		
+					<div class="form-group row">
+					    <label class="col-sm-2 col-form-label">Dirección</label>
+						<div class="col-sm-8">
+							<input type="text" th:field="*{direccion}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></small>
+						</div>
+				  	</div>
+				  	
+				  	<div class="form-group row">
+					    <label class="col-sm-2 col-form-label">Código Postal</label>
+						<div class="col-sm-2">
+							<input type="text" th:field="*{codigopostal}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('codigopostal')}" th:errors="*{codigopostal}"></small>
+						</div>
+					    <label class="col-xs-2 col-form-label">Localidad</label>
+						<div class="col-sm-4">
+							<input type="text" th:field="*{localidad}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('localidad')}" th:errors="*{localidad}"></small>
+						</div>
+				  	</div>
+
+				  	
+				  	<div class="form-group row">
+					    <label class="col-sm-2 col-form-label">Partido</label>
+						<div class="col-sm-4">
+							<input type="text" th:field="*{partido}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('partido')}" th:errors="*{partido}"></small>
+						</div>
+						
+						<label class="col-xs-2 col-form-label">Provincia</label>
+						<div class="col-sm-4">
+							<select id="provincia"  th:field="*{provincia}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="provincia: ${provincias}" th:text="${provincia}" th:value="${provincia}"  class="form-control"> </option>
+						    </select>
+ 					   <!-- 	<div th:if="${#fields.hasErrors('provincia')}" th:errors="*{provincia}"> </div> -->
+ 						</div>
+ 
+				  
+				  	</div>
+				  	
+
+				  	<div class="form-group row">
+				  	
+				  		<label id="pais" class="col-sm-2 col-form-label">País</label>
+						<div class="col-sm-4">
+							<select id="pais"  th:field="*{pais}" class="form-control" th:errorclass="'form-control alert-danger'" >
+								<option th:each="pais: ${paises}" th:text="${pais}" th:value="${pais}"  class="form-control"> </option>
+						    </select>
+ 					 <!--  <div th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"> </div> -->
+						</div>
+					</div>
+ 			
+					 
+ 			
+					<div class="form-group row">
+						<div class="ml-auto">
+							<input type="submit" th:value="${titulo}" class="btn btn-success" />
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

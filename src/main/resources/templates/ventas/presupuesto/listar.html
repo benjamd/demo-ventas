@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<h2>Ventas - Presupuesto</h2>
+		<hr/>
+		
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/nuevo}" class="btn btn-primary">Crear Presupuesto</a>
+								</h4>
+						</div>
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/nuevodetalle}" class="btn btn-info">Crear Presupuesto Detalle</a>
+							</h4>
+						</div>
+						
+						<div class="col-xs">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/buscar}" class="btn btn-success">Buscar Presupuestos</a>
+								</h4>
+						</div>
+						
+						<div class="col-sm ">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/presupuesto/exportar(format=xlsx)}" class="btn btn-xs btn-success float-right ">Exportar a XLS</a>
+								</h4>
+						</div>
+						
+<!-- 						<div class="col-sm">
+						<form th:action="@{/ventas/presupuesto/exportar(format=xlsx)}" th:object="${presupuestos}" method="post" enctype="multipart/form-data">
+							<h4 class="card-title">
+								
+								 <a th:href="@{/ventas/presupuesto/exportar(format=xlsx)}" class="btn btn-success btn-xs float-right">XLS</a>
+								
+								<input type="submit" value="XLS" class="btn btn-success btn-xs float-right" />
+							</h4>
+						</form>
+						
+						</div> -->
+ 
+						
+						
+					</div>
+				</div>
+				
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>XLS</th>
+							<th>Fecha</th>
+							<th>Numero</th>
+							<th>Cliente</th>
+ 							<th>Razón Social</th>
+ 							<th>CUIT</th>
+ 							<th>Importe</th>
+ 							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="presupuesto: ${presupuestos}">
+							<td><a th:href="@{'/ventas/presupuesto/ver/' + ${presupuesto.id}(format=xlsx)}"
+							class="btn btn-success btn-xs float-right">XLS</a> </td>
+							<td th:text="${presupuesto.fecha}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/ventas/presupuesto/ver/} + ${presupuesto.id}" th:text="${presupuesto.prefijo} + '-' +${presupuesto.numero}"></a></td>
+							<td th:text="${presupuesto.cliente.nombre}"></td>
+							<td th:text="${presupuesto.cliente.razonsocial}"></td>
+							<td th:text="${presupuesto.cliente.cuit}"></td>
+							<td th:text="'$' + ${#numbers.formatDecimal(presupuesto.importe,1, 'POINT', 2, 'COMMA')}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm"
+								th:href="@{/ventas/presupuesto/eliminar/} + ${presupuesto.id}" th:text="'eliminar'"
+								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+						</tr>
+					</tbody>
+
+				</table>
+				<nav th:replace="layout/paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

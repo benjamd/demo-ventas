@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+			<h2>Usuarios</h2>
+
+ 		<hr/>
+ 		
+ 		<div class="container">
+				<div class="row">
+				<div class="col-xs">
+					<h4 class="card-title">
+						<a th:href="@{/usuarios/nuevo}" class="btn btn-primary">Crear Usuario</a>
+					</h4>
+				</div>
+				<div class="col-sm">
+					<h4 class="card-title">
+						<a th:href="@{/usuarios/buscar}" class="btn btn-success">Buscar Usuarios</a>
+					</h4>
+				</div>
+				</div>
+			</div>
+			
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+				</h4>
+				<div class="row">
+					<ul class="list-group col-sm-10">
+						<li class="list-group-item active" th:text="'NOMBRE DE USUARIO: '+ ${usuario.username}"></li>
+						<li class="list-group-item" th:text="'NOMBRE: '+ ${usuario.nombre}"></li>
+						<li class="list-group-item" th:text="'APELLIDO: '+${usuario.apellido}"></li>
+					</ul>
+				</div>
+				</div>
+			
+		</div>
+    
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

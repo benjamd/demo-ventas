@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+				<!-- class d-none la mantiene oculta, se llama por jquery -->
+	<table th:fragment="itemsFactura" class="d-none">
+
+		<tbody id="plantillaItemsFactura">
+			<tr id="row_{ID}">
+				<td class="d-none"><input type="hidden" value="{ID}" name="item_id[]"/></td>
+				<td>{NOMBRE}</td>
+ 				<td><input type="number" value=0   name="cantidad[]" min=1 step="0.01" placeholder="1"	id="cantidad_{ID}" 
+ 				class="form-control col-sm-4" onchange="itemsHelper.calcularCantidad();"/></td>
+ 
+				<td><a href="#" class="btn btn-danger btn-sm" onclick="itemsHelper.eliminarLineaFactura({ID});">x</a></td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+</body>
+</html>

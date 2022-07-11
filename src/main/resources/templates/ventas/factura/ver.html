@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+	
+		<h2>Ventas - Facturas</h2>
+
+ 		<hr/>
+ 		
+		<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/factura/nuevo}" class="btn btn-primary">Crear Factura</a>
+								</h4>
+						</div>
+						<div class="col-sm-4">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/factura/nuevodetalle}" class="btn btn-info">Crear Factura Detalle</a>
+							</h4>
+						</div>
+						
+						<div class="col-xs">
+							<h4 class="card-title">
+								<a th:href="@{/ventas/factura/buscar}" class="btn btn-success">Buscar Factura</a>
+								</h4>
+						</div>
+						
+					<div class="ml-auto">
+						<a th:href="@{'/ventas/factura/ver/' + ${factura.id}(format=pdf)}"
+							class="btn btn-danger btn-xs float-right">PDF</a>
+					</div>
+						
+				</div>
+		</div>
+
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+		 
+		<div class="card-body">
+
+			<div class="container">
+				<div class="row"> 
+					<div class="col">
+					<!--  	<h4 class="card-title float-left"> 	</h4>	-->	 
+						
+					</div>
+					<div class="col-6">
+					</div>
+					<div class="col-3">
+						<ul class="list-group">
+							<li class="list-group-item list-group-item-success" th:text="'FACTURA ' + ${factura.letra}"></li>
+							<li class="list-group-item list-group-item-success"  th:text="'Fecha: ' + ${factura.fecha}"></li>
+							<li class="list-group-item list-group-item-success" th:text="${prefijonumero}"></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+				
+			<div>
+				
+				<ul class="list-group my-2">
+					<li class="list-group-item list-group-item-primary"
+						th:text="'CLIENTE: ' +  ${factura.cliente.nombre} + '  - RAZÓN SOCIAL: ' +  ${factura.cliente.razonsocial}"></li>
+					<li class="list-group-item" 
+					th:text="'CUIT: ' +  ${factura.cliente.cuit} + '  - IVA: ' +  ${factura.cliente.iva}"></li>
+					<li class="list-group-item" 
+					th:text="'DIRECCION: ' +  ${factura.cliente.Direccion} + ' CP:' +  ${factura.cliente.codigopostal} + ' Locaidad: ' +  ${factura.cliente.localidad} + ' Prov. ' +  ${factura.cliente.provincia} + ', ' +  ${factura.cliente.pais}"></li>
+					<li class="list-group-item" 
+					th:text="'CONTACTO: ' +  ${factura.cliente.contacto} + ' - TEL: ' + ${factura.cliente.telefono}  + '  - EMAIL: ' +  ${factura.cliente.email}"></li>
+					 
+				</ul>
+			</div>
+			
+			<hr/>
+			
+			<div class="alert alert-info my-4"
+					th:if="${#lists.isEmpty(factura.items)}"
+					th:text="${factura.detalle}"></div>
+
+				<table th:if="${not #lists.isEmpty(factura.items)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Cantidad</th>
+							<th>Descripción</th>
+							<th>Precio</th>
+							<th>Descuento</th>
+							<th>Importe Neto</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${factura.items}">
+							<td th:text="${#numbers.formatDecimal(linea.cantidad, 0, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="${linea.producto.nombre}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.precio, 0, 'POINT', 2, 'COMMA')}"></td>
+							<td th:text="${#numbers.formatDecimal(linea.descuento, 1, 'POINT', 2, 'COMMA')+ '%'}"></td>
+							<td th:text="'$'+ ${#numbers.formatDecimal(linea.importeNeto, 0, 'POINT', 2, 'COMMA')}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			<div>
+				
+			<h5 class="float-right">
+					TOTAL <span th:text="'$' + ${#numbers.formatDecimal(factura.importetotal,0, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+			</h5>
+				<h5 class="float-right">
+						 <span th:text="'$' + ${#numbers.formatDecimal(factura.importeiva,0, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+				</h5>
+				<h5 class="float-right" th:text="'IVA' + ${#numbers.formatDecimal(factura.alicuotaiva * 100,0, 'POINT', 1, 'COMMA')+ '%'}">
+						 <span th:text="'$' + ${#numbers.formatDecimal(factura.importeiva,0, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+				</h5>
+	
+				<h5 class="float-right">
+					IMPORTE <span th:text="'$' + ${#numbers.formatDecimal(factura.importe,0, 'POINT', 2, 'COMMA')}"
+						class="badge badge-secondary"></span>
+				</h5>
+			</div>
+	 
+				
+
+				<div class="card border-info mb-4" style="max-width: 20rem;">
+					<div class="card-header">Observaciones</div>
+					<div class="card-body">
+						<p class="card-text" th:text="${factura.observacion}"
+							th:if="${not #strings.isEmpty(factura.observacion)}"></p>
+						<h4 class="card-title"
+							th:if="${#strings.isEmpty(factura.observacion)}"
+							th:text="'No tiene observaciones'"></h4>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

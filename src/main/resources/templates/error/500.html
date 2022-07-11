@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-danger text-white">
+			<div th:text="'Error Interno ' + ${status}" class="card-header"></div>
+
+			<div class="card-body">
+
+				<h5 class="card-title"> 
+				 Ha ocurrido un error!!!
+				</h5>
+				<a th:href="@{/index}" class="btn btn-outline-light" role="button">Ir a Inicio</a>
+			</div>
+			
+			<hr/>
+			<div th:text="${error} +' ' +  ${status}"></div>
+			<div th:text="${message}"></div>
+			<div th:text="${timestamp}"></div>
+			<br/>
+			<hr/>
+			<div th:text="${trace}"></div>
+		</div>
+		
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
