@@ -130,7 +130,7 @@ public class ClienteController {
 
 	@RequestMapping(value = "/buscar")
 	public String search(Map<String, Object> model) {
-		Cliente cliente = new Cliente();
+		ClienteBusquedaDTO cliente = new ClienteBusquedaDTO();
 		model.put("cliente", cliente);
 		model.put("titulo", "Buscar Cliente");
 		return "/ventas/cliente/buscar";

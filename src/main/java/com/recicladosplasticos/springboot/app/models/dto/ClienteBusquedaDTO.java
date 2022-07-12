@@ -17,6 +17,7 @@ public class ClienteBusquedaDTO {
 	private String contacto;
 	private String email;
 	private String telefono;
+	private String iva;
 	
 	
 	
@@ -108,6 +109,14 @@ public class ClienteBusquedaDTO {
 	}
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public String getIva() {
+		return iva;
+	}
+
+	public void setIva(String iva) {
+		this.iva = iva;
 	}
 	
 	
