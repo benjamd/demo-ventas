@@ -1,14 +1,14 @@
  
-INSERT INTO users (id,username, password, nombre, apellido, enabled) VALUES(1, 'admin','admin','admin','$2a$10$aVRL2rEFk5oF14kjuiq2ueTzs97E0qn9rMAPjiPGU4xBwPRN.QxxC', 1);
-INSERT INTO users (id,username, password, nombre, apellido, enabled) VALUES(2,'operador','operador','operador','$2a$10$W/T/NhU3TsFf80ROjSOygORecrJFJaJ16diLWDWQZLUg3sj9Hc4Zi', 1);
-INSERT INTO users  (id,username, password, nombre, apellido, enabled) VALUES(3,'benjamin','benjamin','benjamin','$2a$10$ypxKJ/nQ.cnvygLOH6KYhejOcNkXL0hmhuv00Ka5ubzs0yP9ObgDS', 1);
-INSERT INTO users  (id,username, password, nombre, apellido, enabled) VALUES(4,'usuario','usuario','usuario','$2a$10$mm0b056XvLWxHpHTiNZNwuu3hITilR7i32tTfIb4i00UEQRZtjB2y', 1);
+INSERT INTO users (id,username,nombre, apellido, password,  enabled) VALUES(1, 'admin','admin','admin','$2a$10$aVRL2rEFk5oF14kjuiq2ueTzs97E0qn9rMAPjiPGU4xBwPRN.QxxC', 1);
+INSERT INTO users(id,username,nombre, apellido, password,  enabled) VALUES(2,'operador','operador','operador','$2a$10$W/T/NhU3TsFf80ROjSOygORecrJFJaJ16diLWDWQZLUg3sj9Hc4Zi', 1);
+INSERT INTO users  (id,username,nombre, apellido, password,  enabled) VALUES(3,'benjamin','benjamin','benjamin','$2a$10$ypxKJ/nQ.cnvygLOH6KYhejOcNkXL0hmhuv00Ka5ubzs0yP9ObgDS', 1);
+INSERT INTO users (id,username,nombre, apellido, password,  enabled) VALUES(4,'usuario','usuario','usuario','$2a$10$mm0b056XvLWxHpHTiNZNwuu3hITilR7i32tTfIb4i00UEQRZtjB2y', 1);
 
 INSERT INTO authorities (id, user_id, authority) VALUES(1, 1, 'ROLE_USER');
 INSERT INTO authorities (id, user_id, authority) VALUES(2, 1, 'ROLE_ADMIN');
 INSERT INTO authorities (id, user_id, authority) VALUES(3, 2, 'ROLE_USER');
 INSERT INTO authorities (id, user_id, authority) VALUES(4, 3, 'ROLE_USER');
-INSERT INTO authorities ((id, user_id, authority) VALUES(5, 3, 'ROLE_ADMIN');
+INSERT INTO authorities (id, user_id, authority) VALUES(5, 3, 'ROLE_ADMIN');
 INSERT INTO authorities (id, user_id, authority) VALUES(6, 4, 'ROLE_USER');
 
  
