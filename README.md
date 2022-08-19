@@ -4,7 +4,7 @@
 1. English
    - Clarification
    - Analysis y Requirements
-   -  and Design
+   - Design
    - Design software decision
    - Changes
 2. Español
@@ -14,14 +14,33 @@
    - Decisiones de diseño de software
    - Cambios
  
+### English
+
+### Clarification
+
+The purpose of this repo is showing part of the work made when I had to get requirements from an argentine recycling company which had no administrative software system, and I had to build a solution fitting their bussiness model. 
+I will only center in sharing the sales process, analysis, design decisions and source code made while I was building this piece of software.
+Beyond sharing experience, the transendental purpose of this repo is cleaning clode and applying best programming practices until all the technical debt erradicated. 
+
+The following analysis, design and decisions are only centered in the sales proccess because the demo is sales only, but maybe one day when I finished refactoring, had enough time and desire I would share the other bussiness processes.
+
+### Analysis y Requirements
+
+### Design
+
+### Design software decision
+
+### Changes
+
+
 ### Español
 
 ### Aclaración
 
 El propósito de este repositorio es mostrar una parte del trabajo realizado en el cual debí relevar una empresa argentina sin sistema administrativo informático y construir una solución ajustada a su modelo de negocio. 
-Solo me centraré en compartir el proceso de ventas, el código fuente, el relevamiento y las decisiones de diseño que se realizaron mientras se construía esta pieza de software. Más allá de compartir la experiencia, el objetivo trascendental de este repositorio es limpiar el código y adquirir buenas prácticas de programación hasta eliminar toda la deuda técnica. 
+Solo me centraré en compartir el proceso de ventas, analisis, decisiones de diseño y código fuente hecho mientras construía esta pieza de software. Más allá de compartir la experiencia, el objetivo trascendental de este repositorio es limpiar el código y aplicar las buenas prácticas de programación hasta que toda la deuda técnica sea erradicada. 
 
-El siguiente relevamiento, analisis, diseño y decisiones sólo se centrará en el proceso de ventas debido a que la demo no otros procesos administrativos de la empresa. Tal vez si algún día termino de refactorizar todo el código y me encuentro con tiempo y ganas comparta otros procesos de negocio.
+El siguiente analisiss, diseño y decisiones sólo se centrará en el proceso de ventas porque la demo es solo ventas, pero tal vez si algún día termino de refactorizar y me encuentro con tiempo y ganas comparta los otros procesos de negocio.
 
 ### Análisis y requerimientos
 
