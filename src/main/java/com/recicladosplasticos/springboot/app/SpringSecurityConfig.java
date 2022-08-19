@@ -64,15 +64,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder builder) throws Exception {
 		
-		/*
-		PasswordEncoder encoder = passwordEncoder();
-		//UserBuilder users = User.builder().passwordEncoder(password ->  encoder.encode(password));
-		UserBuilder users = User.builder().passwordEncoder(encoder::encode);
-		
-		builder.inMemoryAuthentication()
-		.withUser(users.username("admin").password("root").roles("ADMIN","USER"))
-		.withUser(users.username("operador").password("blanco1234").roles("USER"));
-		*/
 		
 		builder.userDetailsService(userDetailsService);
 		
