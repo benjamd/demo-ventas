@@ -1,6 +1,20 @@
-# Sales-Demo - Demo-Ventas
+# Sales-Demo / Demo-Ventas
 
-### Spanish
+### Index / Indice
+1. English
+   - Clarification
+   - Analysis y Requirements
+   -  and Design
+   - Design software decision
+   - Changes
+2. Español
+   - Aclaración
+   - Analisis y Requerimientos
+   - Diseño
+   - Decisiones de diseño de software
+   - Cambios
+ 
+### Español
 
 ### Aclaración
 
@@ -9,7 +23,7 @@ Solo me centraré en compartir el proceso de ventas, el código fuente, el relev
 
 El siguiente relevamiento, analisis, diseño y decisiones sólo se centrará en el proceso de ventas debido a que la demo no otros procesos administrativos de la empresa. Tal vez si algún día termino de refactorizar todo el código y me encuentro con tiempo y ganas comparta otros procesos de negocio.
 
-### Relevamiento
+### Análisis y requerimientos
 
 Una empresa recicladora de plásticos tiene la necesidad de adquirir un sistema informático para su administración diaria. Los dueños son dos personas, una se dedica a la gerencia administrativa y la otra sigue los procesos de producción. Actualmente en Administración hay un empleado que realiza las tareas de cada sector administrativo y será el principal usuario del sistema. 
 La actividad principal de la empresa se centra convertir residuos plásticos en polipropileno, polietileno u otros derivados con distintas propiedades como color o densidad, que serán vendidos como productos intermedios a clientes de distintos sectores de economía, así también como otros productos finales: arandelas washer y espátulas.
@@ -25,7 +39,7 @@ Se solicita que que la primera pantalla del sistema, luego del login exitoso ten
 También piden que el diseño de interfaces web sea lo suficientemente simple para que una persona de aproximadamente 80 años pueda usarlo, no es una exageración, de hecho es la edad aproximada del personal administrativo quien ya está jubilado luego más de 30 años de experiencia en administración de empresas y título universitario. 
 El dueño pide que las órdenes de entrega sean renombradas a presupuesto debido a que en algunos casos solo serán presupuestos de venta que no implicarán una venta. 
  
-### Análisis y Diseño
+### Diseño
 
 Se procede diseñar un sistema administrativo con maestro productos y clientes, los documentos oficiales: facturas, créditos, débitos, recibos, remitos y devoluciones. Las facturas (créditos y débitos)  para los productos de venta se venden con un impuesto al valor agregado (IVA) del 21%, también existe la posibilidad de realizar estos documentos sin movimiento de ítems con iva 21% o 10.5%, por ejemplo si se vendieran bienes de capital.
 
