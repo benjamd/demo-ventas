@@ -3,7 +3,7 @@
 ### Index / Indice
 1. English
    - Clarification
-   - Analysis y Requirements
+   - Analysis & Requirements
    - Design
    - Design software decision
    - Changes
