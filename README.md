@@ -24,7 +24,11 @@ Beyond sharing experience, the transendental purpose of this repo is cleaning cl
 
 The following analysis, design and decisions are only centered in the sales proccess because the demo is sales only, but maybe one day when I finished refactoring, had enough time and desire I would share the other bussiness processes.
 
-### Analysis y Requirements
+### Analysis & Requirements
+
+A plastic recycling company has de need for a information system for thier daily administrative tasks. There are two owners, one of them is focused in the administrative management, the other one is behind production processes. There is one administrative employee who's in charge of every task and will be the main system user. The company's main activity is centered in turning pastic waste into polypropylene,polyethylene and other derivatives with different properties like colour or density, which are used as raw material in several sectors of the economy, as well as other final products: plastic washers for steel framing houses  productos finales: arandelas washer and spatulas.
+
+In the administration there is one personal computer but no administrative system, instead all client and provider current accounts are managed with spredsheets, one for each company. The client and provider data might be found in the spredsheets, however the main reference is a folder where de data is written down: company and legal name, cuit (argentine company id), address, contacts, telephone and emails.
 
 ### Design
 
