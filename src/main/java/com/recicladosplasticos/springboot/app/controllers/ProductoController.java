@@ -1,5 +1,4 @@
 package com.recicladosplasticos.springboot.app.controllers;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -107,10 +106,17 @@ public class ProductoController {
 	@RequestMapping(value = "/eliminar/{id}")
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
 		if (id > 0) {
-		    productoService.delete(id);
-			flash.addFlashAttribute("success", "Producto eliminado con éxito!");
+			try {
+				  productoService.delete(id);
+				  flash.addFlashAttribute("success", "Producto eliminado con éxito!");
+			} catch (Exception e) {
+				e.printStackTrace(System.out);
+				flash.addFlashAttribute("error", "No puede borrar el producto, puede que existan documentos asociados!");
+				return "redirect:/producto/listar";
+			}  
 		}
 		return "redirect:/producto/listar";
+		
 	}
 	
 	@RequestMapping(value = "/buscar")

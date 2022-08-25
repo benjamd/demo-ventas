@@ -24,7 +24,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		 //TODO: Aplicar permisos con @Secured y @PreAuthorize desde el Controller y quitar los antMatchers
-		http.authorizeRequests().antMatchers("/css/**","/js/**", "/images/**").permitAll()
+		http.authorizeRequests().antMatchers("/css/**","/js/**", "/images/**","/locale/**").permitAll()
 		.antMatchers("/cliente/**").hasAnyRole("USER")
 		.antMatchers("/form/**").hasAnyRole("ADMIN")
 		.antMatchers("/eliminar/**").hasAnyRole("ADMIN")

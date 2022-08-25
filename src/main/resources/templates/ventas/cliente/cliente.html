@@ -6,7 +6,7 @@
 	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
-			<h2>Ventas - Clientes</h2>
+			<h2  th:text="#{text.cliente.titulo}"></h2>
 
  		<hr/>
  		
@@ -14,23 +14,23 @@
 				<div class="row">
 				<div class="col-xs">
 					<h4 class="card-title">
-						<a th:href="@{/ventas/cliente/nuevo}" class="btn btn-primary">Crear Cliente</a>
+						<a th:href="@{/ventas/cliente/nuevo}" class="btn btn-primary" th:text="#{text.cliente.crear}"></a>
 					</h4>
 				</div>
 				<div class="col-sm">
 					<h4 class="card-title">
-						<a th:href="@{/ventas/cliente/buscar}" class="btn btn-success">Buscar Cliente</a>
+						<a th:href="@{/ventas/cliente/buscar}" class="btn btn-success" th:text="#{text.cliente.buscar}"></a>
 					</h4>
 				</div>
 				<div class="col-xs">
 					<h4 class="card-title">
-						<a th:href="@{/ventas/cliente/editar/} + ${cliente.id}" class="btn btn-primary">Editar</a>
+						<a th:href="@{/ventas/cliente/editar/} + ${cliente.id}" class="btn btn-primary" th:text="#{text.editar}"></a>
 					</h4>
 				</div>
 				<div class="col-sm">
 					<h4 class="card-title">
 						<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/ventas/cliente/eliminar/} + ${cliente.id}" 
-							class="btn btn-danger" onclick="return confirm('Estás seguro que quieres eliminar?');">Eliminar</a>
+							class="btn btn-danger" onclick="return confirm('Estás seguro que quieres eliminar?');" th:text="#{text.eliminar}"></a>
 					</h4>
 				</div>
 				</div>
@@ -38,29 +38,32 @@
 			
 
 		<div class="card bg-light">
-			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-header" th:text="#{text.cliente.detalle}"></div>
 			<div class="card-body">
 
 				<h4 class="card-title">
-				<!--  	<a class="btn btn-primary"
-						th:href="@{'/factura/form/' + ${cliente.id}}"
-						th:text="'crear factura'"></a> -->
+
 				</h4>
 				<div class="row">
 					<div class="col-sm ">
 							<h4 class="card-title">
-								<a th:href="@{/ventas/cliente/ctacteventas/(format=xlsx)}" class="btn btn-xs btn-success float-right ">CTA CTE VENTAS</a>
+								<a th:href="@{/ventas/cliente/ctacteventas/(format=xlsx)}" class="btn btn-xs btn-success float-right" th:text="#{text.cliente.ctacte}"></a>
 					    	</h4>
 					</div>
 				</div>
 				<div class="row">
 					<ul class="list-group col-sm-10">
 						<li class="list-group-item active" th:text="${cliente.nombre}"></li>
-						<li class="list-group-item" th:text="'RAZON SOCIAL: '+ ${cliente.razonsocial}"></li>
-						<li class="list-group-item" th:text="'ACTIVIDAD: '+${cliente.actividad}"></li>
-						<li class="list-group-item" th:text="'CUIT: '+ ${cliente.cuit} +' - IVA: '+ ${cliente.iva}"></li>
-						<li class="list-group-item" th:text="'DIRECCION: '+${cliente.direccion} +' CP' + ${cliente.codigopostal} +' ' +${cliente.localidad}  +',' +${cliente.partido}+ ' Prov. '+ ${cliente.provincia} +' '+ ${cliente.pais}"  ></li>
- 						<li class="list-group-item" th:text="'CONTACTO: '+ ${cliente.contacto} +' TEL.: '+ ${cliente.telefono} +' E-MAIL: '+ ${cliente.email} "></li>
+						<li class="list-group-item" th:text="#{text.cliente.razonsocial}+': '+ ${cliente.razonsocial}"></li>
+						<li class="list-group-item" th:text="#{text.cliente.actividad}+': '+${cliente.actividad}"></li>
+						<li class="list-group-item" th:text="#{text.cliente.cuit}+': '+ ${cliente.cuit} + ' - ' + #{text.cliente.iva}+': '+${cliente.iva}"></li>
+						<li class="list-group-item" th:text="#{text.cliente.direccion}+': '+  ${cliente.direccion} + ' ' + 
+														 	#{text.cliente.codigopostal}+': '+ ${cliente.codigopostal} +' ' +
+														 	${cliente.localidad}  +',' + ${cliente.partido} +' ' +
+														 	#{text.cliente.provincia} + ' '+ ${cliente.provincia} +' '+ ${cliente.pais}"></li>
+ 						<li class="list-group-item" th:text="#{text.cliente.contacto}+': '+ ${cliente.contacto} +' ' +
+ 															 #{text.cliente.telefono}+': '+ ${cliente.telefono} +' ' +
+ 															 #{text.cliente.email}+': '+ ${cliente.email} "></li>
  					</ul>
 				</div>
 			</div>
