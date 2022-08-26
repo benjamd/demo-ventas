@@ -6,22 +6,22 @@
 	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
-		<h2>Productos y Materiales</h2>
+		<h2 th:text="#{text.index.producto}"></h2>
 		<hr/>
 
 		<div class="card bg-light">
-			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-header" th:text="#{text.producto.listado}"></div>
 			<div class="card-body">
 			<div class="container">
 				<div class="row">
 				<div class="col-xs">
 					<h4 class="card-title">
-						<a th:href="@{/producto/nuevo}" class="btn btn-primary">Crear Producto</a>
+						<a th:href="@{/producto/nuevo}" class="btn btn-primary" th:text="#{text.producto.crear}"></a>
 					</h4>
 				</div>
 				<div class="col-sm">
 					<h4 class="card-title">
-						<a th:href="@{/producto/buscar}" class="btn btn-success">Buscar Producto</a>
+						<a th:href="@{/producto/buscar}" class="btn btn-success"  th:text="#{text.producto.buscar}"></a>
 					</h4>
 				</div>
 				</div>
@@ -31,12 +31,12 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>Nombre</th>
-							<th>Unidad</th>
-							<th>Descripción</th>
-							<th>Stock</th>
-							<th>Editar</th>
-							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+							<th  th:text="#{text.producto.nombre}"></th>
+							<th  th:text="#{text.producto.unidad}"></th>
+							<th  th:text="#{text.producto.descripcion}"></th>
+							<th  th:text="#{text.producto.stock}"></th>
+							<th  th:text="#{text.editar}"></th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{text.eliminar}"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -46,9 +46,9 @@
 							<td th:text="${producto.descripcion}"></td>
 							<td th:text="${#numbers.formatDecimal(producto.stock,1, 'POINT', 2, 'COMMA')}"></td>
 							<td><a class="btn btn-primary btn-sm"
-								th:href="@{/producto/editar/} + ${producto.id}" th:text="'editar'"></a></td>
+								th:href="@{/producto/editar/} + ${producto.id}" th:text="#{text.editar}"></a></td>
 							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm"
-								th:href="@{/producto/eliminar/} + ${producto.id}" th:text="'eliminar'"
+								th:href="@{/producto/eliminar/} + ${producto.id}" th:text="#{text.eliminar}"
 								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
 						</tr>
 					</tbody>

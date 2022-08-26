@@ -13,19 +13,19 @@
 					<div class="card mb-4 shadow-sm">
 
 						<div class="card-body">
-							<h3>Productos y Materiales</h3>
+							<h3 class="text-center" th:text="#{text.index.producto}"></h3>
 							<hr />
 							<div class="d-flex justify-content-between align-items-center">
 
 
 								<div class="list-group container-fluid">
 									<a
-										class="list-group-item list-group-item-action list-group-item-primary"
-										th:href="@{producto/buscar}">Productos y Materiales</a> 
+										class="list-group-item list-group-item-action list-group-item-primary  text-center"
+										th:href="@{producto/buscar}" th:text="#{text.index.producto}"></a> 
 										
 									<a
-										class="list-group-item list-group-item-action list-group-item-success"
-										th:href="@{unidades/listar}">Unidades</a> 
+										class="list-group-item list-group-item-action list-group-item-success  text-center"
+										th:href="@{unidades/listar}" th:text="#{text.index.unidades}"></a> 
 								</div>
 
 							</div>
@@ -36,18 +36,18 @@
 						<div class="card mb-4 shadow-sm">
 
 						<div class="card-body">
-							<h3>Parámetros</h3>
+							<h3 class="text-center" th:text="#{text.index.parametros}"></h3>
 							<hr />
 							<div class="d-flex justify-content-between align-items-center">
 
 
 								<div class="list-group container-fluid">
 									<a
-										class="list-group-item list-group-item-action list-group-item-primary"
-										th:href="@{puntodeventa/listar}">Puntos de Venta</a> 
+										class="list-group-item list-group-item-action list-group-item-primary  text-center"
+										th:href="@{puntodeventa/listar}" th:text="#{text.index.puntosdeventa}"></a> 
 									<a sec:authorize="hasRole('ROLE_ADMIN')"
-										class="list-group-item list-group-item-action list-group-item-warning"
-										th:href="@{usuarios/buscar}">Usuarios</a> 
+										class="list-group-item list-group-item-action list-group-item-warning  text-center"
+										th:href="@{usuarios/buscar}" th:text="#{text.index.usuarios}"></a> 
 								</div>
 
 							</div>
@@ -65,28 +65,28 @@
 					<div class="card mb-4 shadow-sm">
 
 						<div class="card-body">
-							<h3>Ventas</h3>
+							<h3 class="text-center" th:text="#{text.index.ventas}"></h3>
 							<hr />
 							<div class="d-flex justify-content-between align-items-center">
 							<div class="list-group  container-fluid">
 									<a  th:href="@{ventas/cliente/buscar}"
-										class="list-group-item list-group-item-action list-group-item-primary">Clientes</a>
+										class="list-group-item list-group-item-action list-group-item-primary text-center" th:text="#{text.index.clientes}"></a>
 									 <a th:href="@{ventas/factura/buscar}"
-										class="list-group-item list-group-item-action list-group-item-success">Facturas</a>
+										class="list-group-item list-group-item-action list-group-item-success text-center" th:text="#{text.index.facturas}"></a>
 									<a th:href="@{ventas/credito/buscar}"
-										class="list-group-item list-group-item-action list-group-item-warning">Notas de Crédito</a>
+										class="list-group-item list-group-item-action list-group-item-warning text-center" th:text="#{text.index.creditos}"></a>
 									<a th:href="@{ventas/debito/buscar}"
-										class="list-group-item list-group-item-action list-group-item-info">Notas de Débito</a>
+										class="list-group-item list-group-item-action list-group-item-info text-center" th:text="#{text.index.debitos}"></a>
 									<a th:href="@{ventas/recibo/buscar}"
-										class="list-group-item list-group-item-action list-group-item-danger">Recibos</a> 
+										class="list-group-item list-group-item-action list-group-item-danger text-center" th:text="#{text.index.recibos}"></a> 
 									<a th:href="@{ventas/presupuesto/buscar}"
-										class="list-group-item list-group-item-action list-group-item-success">Presupuestos de Venta</a>
+										class="list-group-item list-group-item-action list-group-item-success text-center" th:text="#{text.index.presupuestos}"></a>
 								  	<a th:href="@{ventas/remito/buscar}"
-										class="list-group-item list-group-item-action  list-group-item-light">Remitos</a>
+										class="list-group-item list-group-item-action  list-group-item-light text-center" th:text="#{text.index.remitos}"></a>
 									<a th:href="@{ventas/devolucion/buscar}"
-										class="list-group-item list-group-item-action list-group-item-dark">Devoluciones</a>
+										class="list-group-item list-group-item-action list-group-item-dark text-center" th:text="#{text.index.devoluciones}"></a>
 								 	<a th:href="@{ventas/reporte/buscar}"
-										class="list-group-item list-group-item-action  list-group-item-warning">Reportes</a>
+										class="list-group-item list-group-item-action  list-group-item-warning text-center" th:text="#{text.index.reportes}"></a>
 								</div>
 								
 							</div>

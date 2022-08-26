@@ -31,33 +31,33 @@
 
 					<li class="nav-item dropdown">
 						<a 	class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
-							aria-haspopup="true" aria-expanded="false">Productos y Materiales</a>
+							aria-haspopup="true" aria-expanded="false" th:text="#{text.index.producto}"></a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{/producto/buscar}">Productos y Materiales</a>
-							<a class="dropdown-item" th:href="@{/unidades/listar}">Unidades</a>
+							<a class="dropdown-item" th:href="@{/producto/buscar}" th:text="#{text.index.producto}"></a>
+							<a class="dropdown-item" th:href="@{/unidades/listar}" th:text="#{text.index.unidades}"></a>
 						</div>
 					</li>
 					<li class="nav-item dropdown">
 						<a 	class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
-							aria-haspopup="true" aria-expanded="false">Ventas</a>
+							aria-haspopup="true" aria-expanded="false" th:text="#{text.index.ventas}"></a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{/ventas/cliente/buscar}">Clientes</a>
-							<a class="dropdown-item" th:href="@{/ventas/factura/buscar}">Facturas</a>
-							<a class="dropdown-item" th:href="@{/ventas/credito/buscar}">Notas de Crédito</a>
-							<a class="dropdown-item" th:href="@{/ventas/debito/buscar}">Notas de Débito</a>
-							<a class="dropdown-item" th:href="@{/ventas/recibo/buscar}">Recibos</a>
-							<a class="dropdown-item" th:href="@{/ventas/presupuesto/buscar}">Presupuestos de Venta</a>
-							<a class="dropdown-item" th:href="@{/ventas/remito/buscar}">Remitos</a>
-							<a class="dropdown-item" th:href="@{/ventas/devolucion/buscar}">Devoluciones</a>
-							<a class="dropdown-item" th:href="@{/ventas/reporte/buscar}">Reportes</a>
+							<a class="dropdown-item" th:href="@{/ventas/cliente/buscar}" th:text="#{text.index.clientes}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/factura/buscar}" th:text="#{text.index.facturas}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/credito/buscar}" th:text="#{text.index.creditos}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/debito/buscar}"  th:text="#{text.index.debitos}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/recibo/buscar}"  th:text="#{text.index.recibos}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/presupuesto/buscar}" th:text="#{text.index.presupuestos}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/remito/buscar}"  th:text="#{text.index.remitos}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/devolucion/buscar}"  th:text="#{text.index.devoluciones}"></a>
+							<a class="dropdown-item" th:href="@{/ventas/reporte/buscar}"  th:text="#{text.index.reportes}"></a>
 						</div>
 					</li>					
 					<li class="nav-item dropdown">
 						<a 	class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
-							aria-haspopup="true" aria-expanded="false">Parámetros</a>
+							aria-haspopup="true" aria-expanded="false" th:text="#{text.index.parametros}"></a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{/puntodeventa/listar}">Puntos de Venta</a>
-							<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/usuarios/buscar}">Usuarios</a>
+							<a class="dropdown-item" th:href="@{/puntodeventa/listar}" th:text="#{text.index.puntosdeventa}"></a>
+							<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/usuarios/buscar}" th:text="#{text.index.usuarios}"></a>
 						</div>
 					</li>
 
@@ -67,8 +67,7 @@
 
 				<ul class="navbar-nav navbar-right">
 					<li sec:authorize="!isAuthenticated()" class="nav-item "><a
-						class="nav-link btn btn-outline-primary" th:href="@{/login}">Iniciar
-							sesión</a></li>
+						class="nav-link btn btn-outline-primary" th:href="@{/login}"  th:text="#{text.login.ingresar}"></a></li>
 
 					<li sec:authorize="isAuthenticated()" class="dropdown"><a
 						class="btn btn-outline-primary dropdown-toggle" href="#"
@@ -80,7 +79,7 @@
 							<form id="logoutForm" th:action="@{/logout}" method="post">
 								<button class="dropdown-item btn btn-outline-primary"
 									onclick="document.getElementById('logoutForm').submit();"
-									type="submit">Salir</button>
+									type="submit" th:text="#{text.login.salir}"></button>
 							</form>
 						</div>
 					</li>

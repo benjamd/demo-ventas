@@ -7,17 +7,17 @@
 
 	<div class="container py-4">
 
-		<h2>Productos y Materiales</h2>
+		<h2 th:text="#{text.index.producto}"></h2>
 		<hr/>
 				<h4 class="card-title">
-					<a th:href="@{/producto/nuevo}" class="btn btn-primary">Crear Producto</a>
+					<a th:href="@{/producto/nuevo}" class="btn btn-primary" th:text="#{text.producto.crear}"></a>
 				</h4>
  		<hr/>
  		
  		
 
 		<div class="card bg-dark text-white">
-			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-header" th:text="#{text.producto.buscar}"></div>
 			<div class="card-body">
 				
 
@@ -31,28 +31,22 @@
 					
 					<div class="form-group row">
 						<div class="col-sm-4">
-							<input type="text" th:field="*{nombre}" class="form-control" placeholder="Nombre"
+							<input type="text" th:field="*{nombre}" class="form-control" th:placeholder="#{text.producto.nombre}"
 								th:errorclass="'form-control alert-danger'" /> <small
 								class="form-text text-danger"
 								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
 						</div>
 						
-						<div class="col-sm-6">
-							<input type="text" th:field="*{descripcion}" class="form-control" placeholder="Nombre"
+						<div class="col-sm-4">
+							<input type="text" th:field="*{descripcion}" class="form-control" th:placeholder="#{text.producto.descripcion}"
 								th:errorclass="'form-control alert-danger'" /> <small
 								class="form-text text-danger"
 								th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small>
 						</div>
-				</div>
-
-					<br/>
-					
-					<div class="form-group row">
-						<div class="col-sm-6">
-							<input type="submit" th:value="${titulo}" class="btn btn-success" />
-						</div>
-					</div>
-
+						<div class="col-sm-4">
+							<input type="submit" th:value="#{text.producto.buscar}" class="btn btn-success" />
+						</div>						
+				  </div>
 				</form>
 			</div>
 		</div>
