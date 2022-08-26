@@ -6,24 +6,24 @@
 	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
-					<h2>Unidades</h2>
+					<h2 th:text="#{text.index.unidades}"></h2>
 
  		<hr/>
 		<div class="card bg-light">
-			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-header" th:text="#{text.unidades.listado}"></div>
 			<div class="card-body">
 
 				<h4 class="card-title">
-					<a th:href="@{/unidades/nuevo}" class="btn btn-primary">Crear Unidad</a>
+					<a th:href="@{/unidades/nuevo}" class="btn btn-primary"  th:text="#{text.unidades.crear}"></a>
 				</h4>
  
 				<table class="table table-striped"  >
 					<thead>
 						<tr>
-							<th>Nombre</th>
-							<th>Descripción</th>
-							<th>Editar</th>
-							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+							<th th:text="#{text.unidades.nombre}"></th>
+							<th th:text="#{text.unidades.descripcion}"></th>
+							<th th:text="#{text.editar}"></th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{text.eliminar}"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -32,9 +32,9 @@
 							<td th:text="${unidad.nombre}"></td>
 							<td th:text="${unidad.descripcion}"></td>
 							<td><a class="btn btn-primary btn-sm"
-								th:href="@{/unidades/editar/} + ${unidad.id}" th:text="'editar'"></a></td>
+								th:href="@{/unidades/editar/} + ${unidad.id}" th:text="#{text.editar}"></a></td>
 							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm"
-								th:href="@{/unidades/eliminar/} + ${unidad.id}" th:text="'eliminar'"
+								th:href="@{/unidades/eliminar/} + ${unidad.id}" th:text="#{text.eliminar}"
 								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
 						</tr>
 					</tbody>
