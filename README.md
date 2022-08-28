@@ -14,7 +14,7 @@
    - Decisiones de diseño de software
    - Cambios
  
-### English
+# English
 
 ### Clarification
 
@@ -30,6 +30,11 @@ A plastic recycling company has de need for a information system for thier daily
 
 In the administration there is one personal computer but no administrative system, instead all client and provider current accounts are managed with spredsheets, one for each company. The client and provider data might be found in the spredsheets, however the main reference is a folder where de data is written down: company and legal name, cuit (argentine company id), address, contacts, telephone and emails.
 
+Client's orders are taken by editing an spredsheet template, every client has a template with their own personal data: cliente name & address a list of 6 items ready to dispatch: product name, quantity kilograms., unit price (price per kg) and total, the price is in $AR without taxes (VAT 21%). An observation is usually made for the company's staff or client. This document model is printed in quadruplicate using legal format paper. The first copy is kept by the administration, the second is delivered to the company owner in order to keep control the proccess, the tripled and quadrupled copies along with a delivery note are given to the driver, who can make the waybill using the tripled copy. Then, when the driver gives the order to the customer with a delivery note, he returns with the tipled and quadruplicated copy with the client's signature, and gives all the papers to the administrative employee and the delivery order is finalized.
+Meanwhile, administration uses the original order to make the salebill in AFIP online system, and updates invoice price in the client's current account spredsheet, where also credit note and debit note as well as paymets are recorded.
+Then, using the salebill Administration complets the monthly sales spredsheet, the colums of de report are: date, client, product, kilograms, unit price, total price, VAT, unit cost, total cost and gross profit (total price - total cost). the unit cost is calculated by the purchase cost.
+Making the spredsheet by hand implies that the information about a certain month might be available two weeks later in the best scenario.
+
 ### Design
 
 ### Design software decision
@@ -37,7 +42,7 @@ In the administration there is one personal computer but no administrative syste
 ### Changes
 
 
-### Español
+# Español
 
 ### Aclaración
 
@@ -54,8 +59,8 @@ La actividad principal de la empresa se centra convertir residuos plásticos en 
 En la administración cuentan con una pc y no disponen de sistema administrativo, toda la gestión de cuentas corrientes de clientes y proveedores se lleva a cabo en planilla excel, una planilla por cada empresa. Los datos de clientes y proveedores pueden encontrarse en la planilla, aunque la referencia principal carpeta donde se escribe a mano todos los datos: nombre fantasía, razón social, cuit, dirección, contacto, teléfonos, emails.
 
 Para la gestión ordenes de pedidos, se confecciona un excel por cada pedido, el cual contiene los datos de la empresa cabecera, nombre y dirección del cliente, listado de hasta 6 items a despachar con el nombre del producto, cantidad kgs. precio unitario/(kg) y total, el precio está expresado en $AR sin IVA. Se suele escribir una observación para el personal de la empresa o el cliente. Este modelo se imprime  por cuadruplicado siendo impreso en una hoja Legal/Oficio. La primer copia queda para el administrador, la segunda copia para el control del dueño de la empresa, el triplicado y cuadruplicado junto con remito oficiales  se entregan al chofer para que confeccione la hojas de ruta, cuando el chofer entrega el pedido deja el remito para el cliente, regresa a la empresa con el triplicado, y remito y pedido cuadruplicado firmado y entrega todo a administración para dar por finalizada la entrega.
-Mientras tanto,  la Administración con el original del pedido confecciona la factura en el sistema de online de AFIP, y carga el monto total de la factura en la planilla de cuenta corriente del cliente, donde también se cargan notas de crédito, débito y los pagos realizados. Las planillas de proveedores tienen la misma lógica.
-Con la factura Administración completa una planilla mensual de ventas, las columnas del reporte son: fecha, cliente, producto, kgs., precio unitario, precio total, iva débito fiscal, costo unitario, costo total y ganancia bruta(costo total - precio total). El costo unitario se obtiene a partir del proceso de compras.
+Mientras tanto,  la Administración con el original del pedido confecciona la factura en el sistema de online de AFIP, y carga el monto total de la factura en la planilla de cuenta corriente del cliente, donde también se cargan notas de crédito, débito y los pagos realizados. 
+Con la factura Administración completa una planilla mensual de ventas, las columnas del reporte son: fecha, cliente, producto, kgs., precio unitario, precio total, iva débito fiscal, costo unitario, costo total y ganancia bruta(precio total - costo total). El costo unitario se obtiene a partir del proceso de compras.
 Hacer la planillas a mano implica que la información sobre el estado mensual esté disponible con un atraso de medio mes en los mejores casos.  
 
 Se solicita que que la primera pantalla del sistema, luego del login exitoso tenga todas las opciones a la vista, además de los menúes.
