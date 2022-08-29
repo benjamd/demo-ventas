@@ -6,13 +6,13 @@
 	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
-	<h2>Puntos de Venta</h2>
+	<h2 th:text="#{text.index.puntosdeventa}"></h2>
 		<hr/>
 		<div class="container">
 				<div class="row">
 					<div class="col-xs">
 						<h4 class="card-title">
-							<a th:href="@{/puntodeventa/listar}" class="btn btn-success">Buscar Puntos de Venta</a>
+							<a th:href="@{/puntodeventa/listar}" class="btn btn-success" th:text="#{text.puntosdeventa.buscar}"></a>
 						</h4>
 					</div>
 			</div>

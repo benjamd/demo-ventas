@@ -6,29 +6,29 @@
 	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
-		<h2>Puntos de Venta</h2>
+		<h2 th:text="#{text.index.puntosdeventa}"></h2>
 		<hr/>
 
 		<div class="card bg-light">
-			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-header" th:text="#{text.puntosdeventa.listado}"></div>
 			<div class="card-body">
 
 				<h4 class="card-title">
-					<a th:href="@{/puntodeventa/nuevo}" class="btn btn-primary">Crear Punto de Venta</a>
+					<a th:href="@{/puntodeventa/nuevo}" class="btn btn-primary" th:text="#{text.puntosdeventa.crear}"></a>
 				</h4>
  
 				<table class="table table-striped"  >
 					<thead>
 						<tr>
 							 
-							<th>Nombre</th>
-							<th>Docuento</th>
-							<th>Tipo</th>
-							<th>Prefijo</th>
-							<th>Numero</th>
-							<th>Dirección</th>
-							<th>Editar</th>
-							<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+							<th th:text="#{text.puntosdeventa.nombre}"></th>
+							<th th:text="#{text.puntosdeventa.documento}"></th>
+							<th th:text="#{text.puntosdeventa.tipo}"></th>
+							<th th:text="#{text.puntosdeventa.prefijo}"></th>
+							<th th:text="#{text.puntosdeventa.numero}"></th>
+							<th th:text="#{text.puntosdeventa.direccion}"></th>
+							<th th:text="#{text.editar}"></th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')"  th:text="#{text.eliminar}"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -40,10 +40,10 @@
 							<td th:text="${puntodeventa.prefijo}"></td>
 							<td th:text="${puntodeventa.numero}"></td>
 							<td th:text="${puntodeventa.direccion}"></td>
-							<td><a class="btn btn-primary btn-sm"
-								th:href="@{/puntodeventa/editar/} + ${puntodeventa.id}" th:text="'editar'"></a></td>
+							<td><a class="btn btn-primary btn-sm" 
+								th:href="@{/puntodeventa/editar/} + ${puntodeventa.id}" th:text="#{text.editar}"></a></td>
 							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm"
-								th:href="@{/puntodeventa/eliminar/} + ${puntodeventa.id}" th:text="'eliminar'"
+								th:href="@{/puntodeventa/eliminar/} + ${puntodeventa.id}" th:text="#{text.eliminar}"
 								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
 						</tr>
 					</tbody>
